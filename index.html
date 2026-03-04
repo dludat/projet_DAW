@@ -7,10 +7,10 @@
 <body>
     <h1>Bienvenue sur Helpdesk!</h1>
     <h3>Login</h3>
-    <form id = "login" action="login.php" method="POST">
-        Nom: <input type="text" id="nom"><br>
-        Mot de passe: <input type="password" id="mdp"><br>
+    <form id = "login" action="login.php" method="post">
+        Nom: <input type="text" name="nom"><br>
+        Mot de passe: <input type="password" name="mdp"><br>
         <button id="valider">Se connecter</button>
-        <button id="signup" type="button">S'inscrire</button>
+        <button id="inscription" type="button" onclick="window.location.href='inscription.php'">S'inscrire</button>
     </form>
 </html>
