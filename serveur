@@ -1,3 +1,0 @@
-#!/bin/bash
-cd $HOME/Schreibtisch/Studium/Informatik/26_SoSe/projet_DAW
-php -S localhost:8000
