@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <title>Bienvenue sur Helpdesk!</title>
-    <link rel="stylesheet" href="index.css"></link>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <h1>Bienvenue sur Helpdesk!</h1>
