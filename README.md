@@ -30,7 +30,7 @@ Projet_DAW
 
 
 
-| Domaine          | A | B |
+| Domaine          | Ryan | David |
 | ---------------- | - | - |
 | Connexion base   | X |   |
 | Authentification | X |   |
