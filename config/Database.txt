@@ -1,0 +1,189 @@
+Structure DataBase:
+
+==========Utilisateur==========
+
+1)
+users
+-----
+id              INT PRIMARY KEY AUTO_INCREMENT
+username            VARCHAR(100) NOT NULL
+password_hash   VARCHAR(255) NOT NULL
+role            ENUM('student','tutor') NOT NULL
+
+
+2)
+
+subjects
+--------
+id          INT PRIMARY KEY AUTO_INCREMENT
+name        VARCHAR(100) NOT NULL
+description TEXT
+
+
+3)
+Matière(s) enseigner par un professeur
+Association N–N entre tuteurs et matières.
+
+tutor_subjects
+--------------
+tutor_id   INT PRIMARY (
+subject_id INT PRIMARY  (matière enseignée)
+
+FOREIGN KEY (tutor_id) REFERENCES users(id)
+FOREIGN KEY (subject_id) REFERENCES subjects(id)
+
+
+
+==========Ticket==========
+
+4)
+Types de ticket: 
+
+categories
+----------
+id      INT PRIMARY KEY AUTO_INCREMENT
+name    VARCHAR(50) NOT NULL
+
+Exemple:
+1: Cours
+2: TD
+3: TP
+
+
+
+5)
+Priorité du ticket
+
+priorities
+----------
+id      INT PRIMARY KEY AUTO_INCREMENT
+name    VARCHAR(20) NOT NULL
+
+Exemple:
+1: Basse
+2: Moyenne
+3: Haute
+
+
+6)
+Statut ticket
+
+statuses
+--------
+id      INT PRIMARY KEY AUTO_INCREMENT
+name    VARCHAR(20) NOT NULL
+
+1: Ouvert
+2: En cours
+3: Résolu
+
+
+7)
+
+comments
+--------
+id          INT PRIMARY KEY AUTO_INCREMENT
+ticket_id   INT NOT NULL
+author_id   INT NOT NULL
+message     TEXT NOT NULL
+created_at  DATETIME CURENT
+
+FOREIGN KEY (ticket_id) REFERENCES tickets(id)
+FOREIGN KEY (author_id) REFERENCES users(id)
+
+
+8)
+
+tickets
+-------
+id                  INT PRIMARY KEY AUTO_INCREMENT
+author_id           INT NOT NULL
+subject_id          INT NOT NULL
+assigned_tutor_id   INT NULL
+category_id         INT NOT NULL
+priority_id         INT NOT NULL
+status_id           INT NOT NULL
+title               VARCHAR(200) NOT NULL
+description         TEXT NOT NULL
+created_at          DATETIME CURRENT
+
+Clés étrangères:
+FOREIGN KEY (author_id) REFERENCES users(id)
+FOREIGN KEY (assigned_tutor_id) REFERENCES users(id)
+FOREIGN KEY (subject_id) REFERENCES subjects(id)
+FOREIGN KEY (category_id) REFERENCES categories(id)
+FOREIGN KEY (priority_id) REFERENCES priorities(id)
+FOREIGN KEY (status_id) REFERENCES statuses(id)
+
+
+
+
+
+
+==========Cardinalité==========
+1. Utilisateur — Ticket)
+
+Un utilisateur peut créer plusieurs tickets.
+users 1 ---- N tickets
+tickets.author_id => users.id
+
+2.Utilisateur — Commentaire)
+
+Un utilisateur peut écrire plusieurs commentaires.
+users 1 ---- N comments
+comments.author_id => users.id
+
+3.Ticket — Commentaire)
+Un ticket peut contenir plusieurs commentaires.
+tickets 1 ---- N comments
+comments.ticket_id => tickets.id
+
+4.Matière — Ticket)
+Un ticket concerne une seule matière
+subjects 1 ---- N tickets
+tickets.subject_id => subjects.id
+
+5.Tuteur — Matière)
+Un tuteur peut être affilié à plusieurs matières et une matière peut avoir plusieurs tuteurs.
+users (tutor) N ---- N subjects
+
+
+6.
+
+categories 1----N tickets
+priorities 1----N tickets
+status 1----N tickets
+
+
+
+
+
+
+
+En 1ére FN;
+
+DF:
+UserID => Username, PasswordHash, Role
+SubjectID => NomMatiere, DescriptionMatiere
+CategorieID => NomCategorie
+PrioriteID => NomPriorite
+StatutID => NomStatut
+
+TicketID =>
+UserID, SubjectID, CategorieID, PrioriteID, StatutID,
+Titre, DescriptionTicket, DateTicket
+
+CommentID =>
+TicketID, UserID, Message, DateCommentaire
+
+
+
+Décomposition:
+Users(UserID, Username, PasswordHash, Role)
+Subjects(SubjectID, NomMatiere, DescriptionMatiere)
+Categories(CategorieID, NomCategorie)
+Priorities(PrioriteID, NomPriorite)
+Statuses(StatutID, NomStatut)
+Tickets(TicketID, UserID, SubjectID, CategorieID, PrioriteID, StatutID, Titre, DescriptionTicket, DateTicket)
+Comments(CommentID, TicketID, UserID, Message, DateCommentaire)
+Tutor_Subjects(TutorID, SubjectID)
