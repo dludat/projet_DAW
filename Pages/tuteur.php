@@ -34,7 +34,7 @@ if (!isset($_SESSION["user_id"])) {
             <strong><?= htmlspecialchars($_SESSION['role']) ?></strong>
         </p>
 
-        <p>Connexion réussie :) </p>
+        <p>Connexion réussie :)</p>
         <p><a href="logout.php">Se déconnecter</a></p>
     </body>
 </html>
