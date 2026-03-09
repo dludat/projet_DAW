@@ -1,1 +1,0 @@
-#Code utilisées pour la création de tableaux SAL
