@@ -22,6 +22,7 @@ if (!isset($_SESSION["user_id"])) {
     <head>
         <meta charset="UTF-8">
         <title>Espace utilisateur - Helpdesk</title>
+        <link rel="stylesheet" href="../css/etudiant.css">
     </head>
     <body>
         <h1>Espace utilisateur</h1>
@@ -36,5 +37,20 @@ if (!isset($_SESSION["user_id"])) {
 
         <p>Connexion réussie :) </p>
         <p><a href="logout.php">Se déconnecter</a></p>
+
+        <h1>Bienvenue chez Helpdesk</h1>
+        <h3>Démarre maintenant tes actions!</h3>
+        <button type="button" id="creer_ticket" onclick="window.location.href='./create.php'">Créer nouveau ticket</button>
+        <h4>Tes tickets:</h4>
+        <ul>
+            <li>Ticket1</li>
+            <li>Ticket2</li>
+            <li>Ici ajouter plus tard les tickets de base de données</li>
+        </ul>
     </body>
 </html>
+
+<?php
+//Télécharger les données de la bd
+//les afficher en forme courte
+?>
