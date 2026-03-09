@@ -6,14 +6,16 @@ class Ticket {
     public string $title;
     public string $description;
     public array $commentaires;
+    public string $tuteur;
     public int $categorie; //0: Cours; 1: TD; 2: TP
     public int $priorite; //0: Basse; 1: Moyen; 2: Haut 
     public int $statu; //0: Ouver; 1: En cours; 2: Resolu
     public DateTime $date;
 
-    public function __construct(int $id, string $auteur, string $title, string $description, int $categorie, int $priorite) {
+    public function __construct(int $id, string $auteur, string $title, string $description, int $categorie, int $priorite, string $tuteur) {
         $this->id = $id;
         $this->auteur = $auteur;
+        $this->tuteur = $tuteur;
         $this->title = $title;
         $this->description = $description;
         $this->categorie = $categorie;
