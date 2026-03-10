@@ -47,6 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         header("Location: ../Pages/create.php");
         exit();
+    } else {
+        //inserer ticket dans la BDD
+        header("Location: ../Pages/etudiant.php");
+        exit();
     }
 }
 ?>

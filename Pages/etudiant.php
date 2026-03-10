@@ -38,7 +38,6 @@ if (!isset($_SESSION["user_id"])) {
         <p>Connexion réussie :) </p>
         <p><a href="logout.php">Se déconnecter</a></p>
 
-        <h1>Bienvenue chez Helpdesk</h1>
         <h3>Démarre maintenant tes actions!</h3>
         <button type="button" id="creer_ticket" onclick="window.location.href='./create.php'">Créer nouveau ticket</button>
         <h4>Tes tickets:</h4>
