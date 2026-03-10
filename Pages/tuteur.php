@@ -38,7 +38,7 @@ if (!isset($_SESSION["user_id"])) {
         <p>Connexion réussie :)</p>
         <p><a href="logout.php">Se déconnecter</a></p>
 
-        <h1>Bienvenue chez Helpdesk</h1>
+        
         <h3>Démarre maintenant tes actions!</h3>
         <h4>Tous les derniers tickets:</h4>
         <ul>
