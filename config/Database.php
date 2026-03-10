@@ -1,4 +1,12 @@
 <?php
+/*Fonctions nécessaire:
+get_subjects:   SELECT id, name FROM subjects;
+get_tutors:     SELECT DISTINCT tutor_id FROM tutors_subjects;
+test_tutors_subject:    SELECT COUNT(*) FROM tutors_subjects WHERE tutor_id = <id> AND subject_id = <id>;
+insert_ticket: INSERT INTO tickets VALUES (...);
+*/
+
+
 //Définition d'un ticket, evtl pas utilisé plus tard
 class Ticket {
     public int $id;
