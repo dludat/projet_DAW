@@ -4,8 +4,9 @@ get_subjects:   SELECT id, name FROM subjects;
 get_tutors:     SELECT DISTINCT tutor_id FROM tutors_subjects;
 test_tutors_subject:    SELECT COUNT(*) FROM tutors_subjects WHERE tutor_id = <id> AND subject_id = <id>;
 insert_ticket: INSERT INTO tickets VALUES (...);
+get_students_ticket(<userId>): SELECT * FROM Tickets T JOIN users ON T.authorId = U.id WHERE U.id = <userId>;
+get_ticket(<id>): SELECT * FROM Tickets WHERE id = <id>;
 */
-
 
 //Définition d'un ticket, evtl pas utilisé plus tard
 class Ticket {

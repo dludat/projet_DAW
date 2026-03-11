@@ -14,7 +14,10 @@ if (!isset($_SESSION["user_id"])) {
     echo '<p><a href="index.php">Retour à l\'accueil</a></p>';
 
 }
-
+if ($_SESSION['role'] == 'tutor') {
+    header('Location: tuteur.php');
+    exit();
+}
 //télécharger et préparer les données pour le tableau
 ?>
 
@@ -66,13 +69,27 @@ if (!isset($_SESSION["user_id"])) {
                 <td>Ouvert</td>
                 <td>J'en travaille, Ryan, 29/07/21</td>
             </tr>
+            <tr class="appuyable" data-href="./tickets.php?id=2">
+                <td>1</td>
+                <td>David Ludat</td>
+                <td>Problèmes avec l'inscription Plubel</td>
+                <td>Cours</td>
+                <td>Haute</td>
+                <td>22/07/21</td>
+                <td>Ouvert</td>
+                <td>J'en travaille, Ryan, 29/07/21</td>
+            </tr>
+            <tr class="appuyable" data-href="./tickets.php?id=3">
+                <td>1</td>
+                <td>David Ludat</td>
+                <td>Problèmes avec l'inscription Plubel</td>
+                <td>Cours</td>
+                <td>Haute</td>
+                <td>22/07/21</td>
+                <td>Ouvert</td>
+                <td>J'en travaille, Ryan, 29/07/21</td>
+            </tr>
         </table>
-        <script href="../javascript/etudiant.js"></script>
+        <script src="../javascript/etudiant.js"></script>
     </body>
 </html>
-
-<?php
-//Télécharger les données de la BDD
-//filtrer a ceux que l'etudiant peut voir
-//les sorter et afficher
-?>
