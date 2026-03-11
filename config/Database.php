@@ -1,11 +1,20 @@
 <?php
 /*Fonctions nécessaire:
+GET Données:
 get_subjects:   SELECT id, name FROM subjects;
 get_tutors:     SELECT DISTINCT tutor_id FROM tutors_subjects;
-test_tutors_subject:    SELECT COUNT(*) FROM tutors_subjects WHERE tutor_id = <id> AND subject_id = <id>;
-insert_ticket: INSERT INTO tickets VALUES (...);
 get_students_ticket(<userId>): SELECT * FROM Tickets T JOIN users ON T.authorId = U.id WHERE U.id = <userId>;
 get_ticket(<id>): SELECT * FROM Tickets WHERE id = <id>;
+get_commentaires(<ticket_id>): SELECT * WHERE ticket_id = <ticket_id>;
+test_tutors_subject:    SELECT COUNT(*) FROM tutors_subjects WHERE tutor_id = <id> AND subject_id = <id>;
+
+Inserer Données:
+insert_ticket: INSERT INTO tickets VALUES (...);
+insert_commentaire: INSERT INTO comments VALUES (...);
+
+Modifier Données:
+change_status(<ticket_id>): UPDATE Tickets SET status_id = new_statut;
+change_priorite(<ticket_id>): UPDATE Tickets SET priority_id = new_priorite;
 */
 
 //Définition d'un ticket, evtl pas utilisé plus tard

@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $tuteur = intval($_POST["tuteur"]) ?? 0; //seulement les ids de la BDD envoyé
-    if ($tutuer === 0) {
+    if ($tuteur === 0) {
         $erreurs[] = "Un ticket doit etre attribuer à un enseignant.";
     }
 
@@ -36,7 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($description === "") {
         $erreurs[] = " Veuillez décrire votre problème en détail. Sinon il est probablement pas possible de vous aider.";
     }
-
     //vérifier s'il y a ce cours avec ce tuteur (tutor_subjects)
 
 
@@ -49,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     } else {
         //inserer ticket dans la BDD
+        $_SESSION["succes"] = "Ticket créer avec succès";
         header("Location: ../Pages/etudiant.php");
         exit();
     }

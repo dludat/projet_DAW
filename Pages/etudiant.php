@@ -14,10 +14,14 @@ if (!isset($_SESSION["user_id"])) {
     echo '<p><a href="index.php">Retour à l\'accueil</a></p>';
 
 }
+//Rédirection en cas de role faux
 if ($_SESSION['role'] == 'tutor') {
     header('Location: tuteur.php');
     exit();
 }
+
+
+
 //télécharger et préparer les données pour le tableau
 ?>
 
