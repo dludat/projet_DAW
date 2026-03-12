@@ -20,6 +20,11 @@ if ($_SESSION['role'] == 'tutor') {
     exit();
 }
 
+//afficher que l'action a été effectué
+if (isset($_SESSION['succes'])) {
+    echo "<p style='color:green'>" . $_SESSION['succes'] .'</p>';
+    unset($_SESSION['succes']);
+}
 
 
 //télécharger et préparer les données pour le tableau

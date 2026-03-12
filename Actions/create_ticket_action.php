@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     } else {
         //inserer ticket dans la BDD
-        $_SESSION["succes"] = "Ticket créer avec succès";
+        $_SESSION["succes"] = "Ticket a été créé avec succès";
         header("Location: ../Pages/etudiant.php");
         exit();
     }

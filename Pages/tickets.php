@@ -1,9 +1,10 @@
 <?php
 //Récuperer Données
+session_start();
 $ticket_id = $_GET["id"];
 
 //Message de succès p. ex. après la création d'une ticket
-if (isset($_SESSION["success"])) {
+if (isset($_SESSION["succes"])) {
     echo "<p id='succes' style='color:green'> " . $_SESSION["succes"] . "</p>";
     unset($_SESSION["success"]); 
 }
@@ -51,12 +52,12 @@ if (isset($_SESSION["error"])) {
             </tr>
         </table>
         <h3>Ajouter commentaire</h3>
-        <form id="nv_commentaire" action="../add_comment_action.php" method="post">
+        <form id="nv_commentaire" action="../Actions/add_comment_action.php" method="post">
             <input type="hidden" name="id_ticket" value="<?php echo $ticket_id;?>"><br>
             <input type="hidden" name="id_auteur" value="<?php echo $_SESSION['user_id'];?>"><br>
             <textarea name="contenu" placeholder="Ajouter votre commentaire ici"></textarea>
             <button type="submit" id="valider">Ajouter</button>
         </form>
-        <button type="button" id="retour" onclick="window.location.href='./tuteur'">Retour à l'aperçu</button>
+        <button type="button" id="retour" onclick="window.location.href='./tuteur.php'">Retour à l'aperçu</button>
     </body> 
 </html>
