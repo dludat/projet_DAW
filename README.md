@@ -93,3 +93,9 @@ $_SESSION variables:
 | Interface CSS    | X | X |
 | Base de données  | X | X |
 | Tests            | X | X |
+
+
+TODO:
+actualiser les tickets (statuts, priorité)
+différence tuteur/etudiant
+menu de tous les pages
