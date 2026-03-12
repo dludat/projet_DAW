@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] ==="POST") {
     }
 
     //Validation des données de l'utilisateur
-    $contenu = $_POST["contenu"] ?? "";
+    $contenu = htmlspecialchars($_POST["contenu"]) ?? "";
     if ($contenu === "") {
         $_SESSION["error"] = "Votre commentaire doit avoir un contenu visible. Reessayez.";
         header("Location: ../Pages/tickets.php");

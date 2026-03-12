@@ -7,7 +7,7 @@ $erreurs = [];
 
 //Valider les données
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $titre = $_POST['titre'] ?? "";
+    $titre = htmlspecialchars($_POST['titre']) ?? "";
     if ($titre === "") {
         $erreurs[] = "Un ticket doit avoir un titre remarquable.";
     }
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $erreurs[] = "Il y a seulement les catégories cours, TD et TP. Veuillez en selectionner un.";
     }
 
-    $description = $_POST["description"] ?? "";
+    $description = htmlspecialchars($_POST["description"]) ?? "";
     if ($description === "") {
         $erreurs[] = " Veuillez décrire votre problème en détail. Sinon il est probablement pas possible de vous aider.";
     }

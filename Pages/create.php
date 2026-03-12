@@ -23,10 +23,6 @@ $tuteurs_list;
 //    $tuteurs_list .= "<option value='" . htmlspecialchars($t->id) . "'>". htmlspecialchars($t->name) . "</option>";
 //}
 
-//notes pour sauvegarder
-//Cours: <input name="cours" type="select" list="cours" placeholder="Rechercher des cours" required>
-//Tuteur: <input name="tuteur" type="select" list="cours_options" required><br>
-//$list = "<datalist id='cours_options' form='nv_ticket'>";
 ?>
 
 <html>

@@ -8,7 +8,6 @@ session_start();
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION["user_id"])) {
-
     // Message si l'utilisateur n'est pas connecté & Redirige menu principal
     echo "Vous devez être connecté.";
     echo '<p><a href="index.php">Retour à l\'accueil</a></p>';
