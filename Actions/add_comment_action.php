@@ -11,14 +11,14 @@ if ($_SERVER["REQUEST_METHOD"] ==="POST") {
     if ($id_ticket === 0 || $id_auteur === 0) {
         $_SESSION["error"] = "Erreur interne. Connectez-vous encore une fois";
         echo "<p>" . $_SESSION["error"] ."";
-        //header("Location: ../Pages/index.php");
-        //exit();
+        header("Location: ../Pages/index.php");
+        exit();
     }
 
     //Validation des données de l'utilisateur
     $contenu = $_POST["contenu"] ?? "";
     if ($contenu === "") {
-        $_SESSION["error"] = "Votre commentaire doit etre un contenu visible. Reessayez.";
+        $_SESSION["error"] = "Votre commentaire doit avoir un contenu visible. Reessayez.";
         header("Location: ../Pages/tickets.php");
         exit();
     }
