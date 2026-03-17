@@ -14,6 +14,8 @@ if (!isset($_SESSION["user_id"])) {
     echo '<p><a href="index.php">Retour à l\'accueil</a></p>';
 }
 
+
+//action avec success
 if (isset($_SESSION["success"])) {
     echo "<p id='succes' style='color:green'> " . $_SESSION["succes"] . "</p>";
     unset($_SESSION["success"]); 
@@ -42,15 +44,55 @@ if (isset($_SESSION["success"])) {
         <p>Connexion réussie :)</p>
         <p><a href="logout.php">Se déconnecter</a></p>
 
-        
         <h3>Démarre maintenant tes actions!</h3>
-        <h4>Tous les derniers tickets:</h4>
-        <ul>
-            <li>Ticket1</li>
-            <li>Ticket2</li>
-            <li>Ici ajouter plus tard les tickets de base de données</li>
-        </ul>
-        <button type="button" id="voir_tickets" onclick="window.location.href='./tickets.php'">Voir la liste extensive</button>
+        <button type="button" id="creer_ticket" onclick="window.location.href='./create.php'">Créer nouveau ticket</button>
+        <h4>Tes tickets:</h4>
+
+
+        <table>
+            <caption>Votre tickets:</caption>
+            <tr>
+                <th>id</th>
+                <th>créateur</th>
+                <th>titre</th>
+                <th>catégorie</th>
+                <th>priorité</th>
+                <th>date de création</th>
+                <th>statut</th>
+                <th>dernier commentaire</th>
+            </tr>
+            <tr class="appuyable" data-href="./tickets.php?id=1">
+                    <td>1</td>
+                    <td>David Ludat</td>
+                    <td>Problèmes avec l'inscription Plubel</td>
+                    <td>Cours</td>
+                    <td>Haute</td>
+                    <td>22/07/21</td>
+                    <td>Ouvert</td>
+                    <td>J'en travaille, Ryan, 29/07/21</td>
+            </tr>
+            <tr class="appuyable" data-href="./tickets.php?id=2">
+                <td>1</td>
+                <td>David Ludat</td>
+                <td>Problèmes avec l'inscription Plubel</td>
+                <td>Cours</td>
+                <td>Haute</td>
+                <td>22/07/21</td>
+                <td>Ouvert</td>
+                <td>J'en travaille, Ryan, 29/07/21</td>
+            </tr>
+            <tr class="appuyable" data-href="./tickets.php?id=3">
+                <td>1</td>
+                <td>David Ludat</td>
+                <td>Problèmes avec l'inscription Plubel</td>
+                <td>Cours</td>
+                <td>Haute</td>
+                <td>22/07/21</td>
+                <td>Ouvert</td>
+                <td>J'en travaille, Ryan, 29/07/21</td>
+            </tr>
+        </table>
+        <script src="../javascript/tuteur.js"></script>
     </body>
 </html>
 

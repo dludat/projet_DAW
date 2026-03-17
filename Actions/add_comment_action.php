@@ -21,10 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] ==="POST") {
         $_SESSION["error"] = "Votre commentaire doit avoir un contenu visible. Reessayez.";
         header("Location: ../Pages/tickets.php");
         exit();
+    } else {
+        //Insertion dans la BDD
+
+        //Commentaire succès
+        $_SESSION["succes"] = "Le commentaire a été créé";
+        header("Location: ../Pages/tickets.php");
+        exit();
     }
 
-    //Insertion dans la BDD
-    $_SESSION["succes"] = "Le commentaire a été créé";
-    header("Location: ../Pages/tickets.php");
-    exit();
 }
