@@ -72,6 +72,13 @@ Avec
 `http://localhost:8000/Pages/index.php`
 
 
+$_SESSION variables:
+-> id de l'utilisateur (en autres pour le téléchargement des vraies tickets) ['user_id']
+-> role de l'utilisateur (tutor ou student) ['role']
+-> erreurs de formulaire pour la rédirection et gestion ['error']
+-> message de succès de l'action ['succes']
+
+
 
 
 | Domaine          | Ryan | David |
