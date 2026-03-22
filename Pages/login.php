@@ -25,18 +25,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Si aucune erreurs est dans le tableau des erreurs
     if (empty($errors)) {
         //Vérification dans la base de donnée de l'existance de l'utilisateur
+        $pdo = getDatabaseConnection();
 
+        $stmt = $pdo->prepare(
+            "SELECT id, username, password_hash, role 
+            FROM users 
+            WHERE username = :username 
+            LIMIT 1"
+        );
+
+        $stmt->execute(['username' => $username]);
+
+        $user = $stmt->fetch();
         //Si oui, vérification du MDP hasher
         if (!$user || !password_verify($password, $user['password_hash'])) {
                 $errors[] = 'Identifiants invalides.';
             } 
-        else{
+        else {
+
+            //Création de la session utilisateur
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+
             //Si oui, redirection vers etudiant.php si rôle = Etudiant ; sinon tuteur.php
             if ($user['role'] === 'tutor') {
                 //Redirection automatique -> tuteur.php
+                header('Location: tuteur.php');
+                exit;
             }
             else {
                 //Redirection automatique -> etudiant.php
+                header('Location: etudiant.php');
+                exit;
             }
         }         
     }
