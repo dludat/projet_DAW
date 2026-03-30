@@ -1,4 +1,3 @@
 *.json
 serveur
 .vscode
-config_BDD.php

@@ -23,9 +23,8 @@ function getDatabaseConnection(): PDO
     $host = '127.0.0.1'; //Adresse serveur MySQL
     $port = '3306'; //Port MySQL
     $dbname = 'helpdesk'; //Nom BDD
-    $username = 'phpmyadmin'; //Nom utilisateur MySQL
+    $username = getenv('DB_USER') ?: ''; //Nom utilisateur MySQL
     $password = getenv('DB_PASS') ?: '';
-    echo $password . "salut";
 
     //Création DSN
     $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $host, $port, $dbname);
