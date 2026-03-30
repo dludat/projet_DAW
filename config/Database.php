@@ -14,7 +14,7 @@ function getDatabaseConnection(): PDO
     static $pdo = null;
 
 
-    //Si la connexion existe dééjà on la retourne
+    //Si la connexion existe déjà on la retourne
     if ($pdo instanceof PDO) {
         return $pdo;
     }
@@ -22,7 +22,7 @@ function getDatabaseConnection(): PDO
     $host = '127.0.0.1'; //Adresse serveur MySQL
     $port = '3306'; //Port MySQL
     $dbname = 'helpdesk'; //Nom BDD
-    $username = 'root'; //Nom utilisateur MySQL
+    $username = 'phpmyadmin'; //Nom utilisateur MySQL
     $password = getenv('DB_PASS') ?: '';
 
     //Création DSN
