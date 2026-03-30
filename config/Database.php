@@ -15,6 +15,7 @@ function getDatabaseConnection(): PDO
 
 
     //Si la connexion existe déjà on la retourne
+    //Ca ne va jamais etre le cas, voir ligne 14
     if ($pdo instanceof PDO) {
         return $pdo;
     }
@@ -24,6 +25,7 @@ function getDatabaseConnection(): PDO
     $dbname = 'helpdesk'; //Nom BDD
     $username = 'phpmyadmin'; //Nom utilisateur MySQL
     $password = getenv('DB_PASS') ?: '';
+    echo $password . "salut";
 
     //Création DSN
     $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $host, $port, $dbname);

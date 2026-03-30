@@ -1,4 +1,4 @@
 *.json
-.gitignore
 serveur
 .vscode
+config_BDD.php
