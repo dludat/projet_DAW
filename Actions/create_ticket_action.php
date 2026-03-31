@@ -1,9 +1,12 @@
 <?php
-include '../config/Database.php';
+include '../config/Ticket.php';
 
 session_start();
 //Tableau erreurs
 $erreurs = [];
+
+$BDD = new ConnectionBDD(); //ouvrir connection BDD
+
 
 //Valider les données
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -38,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     //vérifier s'il y a ce cours avec ce tuteur (tutor_subjects)
 
+    $id_auteur = intval($_SESSION["user_id"]);
+    $statut = 1; //après création, ticket toujours ouvert
 
     if (!empty($erreurs)) {//formulaire ne peut pas etre valider
         $_SESSION["error"] = "";
@@ -48,9 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     } else {
         //inserer ticket dans la BDD
+        $BDD->inserer_ticket($id_auteur, $cours, $tuteur, $categorie, $priorite, $statut, $titre, $description);
+        echo "salut";
         $_SESSION["succes"] = "Ticket a été créé avec succès";
-        header("Location: ../Pages/etudiant.php");
-        exit();
+        //header("Location: ../Pages/etudiant.php");
+        //exit();
     }
 }
 ?>

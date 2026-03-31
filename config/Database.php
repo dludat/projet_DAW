@@ -29,7 +29,7 @@ function getDatabaseConnection(): PDO
     //Création DSN
     $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $host, $port, $dbname);
 
-    //Création de la connexion PDO
+    //Création de la connexion PDDO
     $pdo = new PDO($dsn, $username, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

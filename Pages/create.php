@@ -1,4 +1,6 @@
 <?php
+include "../config/Ticket.php";
+
 session_start();
 //afficher les erreurs
 if (isset($_SESSION["error"])) {
@@ -7,21 +9,12 @@ if (isset($_SESSION["error"])) {
 }
 
 //Télécharger les subjects et tuteurs possibles
-$cours; //ici inserer les cours possibles avec noms et id
-$tuteurs; //ici inserer les tuteurs possibles avec noms et id (tutor_subjects table)
-$cours_list;
-$tuteurs_list;
+$BDD = new ConnectionBDD();
 
-//écrire options pour <select> de cours
-//foreach ($cours as $c) { //ajouter tous les options
-//    $cours_list .= "<option value='" . htmlspecialchars($c->id) . "'>" . htmlspecialchars($c->name) . "</option>";
-//}
-//$list .= "</datalist>";
-
-//écrire options pour <select> de tuteurs
-//foreach ($tuteurs as $t) { //ajouter tous les options
-//    $tuteurs_list .= "<option value='" . htmlspecialchars($t->id) . "'>". htmlspecialchars($t->name) . "</option>";
-//}
+$cours = $BDD->get_subjects(); //consulter BDD pour cours possibles
+$tuteurs = $BDD->get_tutors(); //ici inserer les tuteurs possibles avec noms et id (tutor_subjects table)
+$cours_list = $cours->fetchAll(); //générer les listes pour les insérer dans select
+$tuteurs_list = $tuteurs->fetchAll();
 
 ?>
 
@@ -35,12 +28,18 @@ $tuteurs_list;
         <form id="nv_ticket" action="../Actions/create_ticket_action.php" method="post">
             Titre: <input name="titre" type="text" required><br>
             Cours:<select name="cours" required>
-                <option value="1">$c.name</option>
-                <?php //echo $cours_list; //ajouter tous les options?>
+                <?php //ajouter tous les options
+                foreach($cours_list as $c) { 
+                    echo "<option value='" . htmlspecialchars($c["id"]) ."'>". htmlspecialchars($c["name"]) . "</option>";
+                }
+                ?>
             </select><br>
             Tuteurs:<select name="tuteur" required>
-                <option value="2">$c.name</option>
-                <?php //echo $tuteurs_list; //ajouter tous les options?>
+                <?php //ajouter tous les options
+                foreach($tuteurs_list as $t) { 
+                    echo "<option value='" . htmlspecialchars($t["tutor_id"]) ."'>". htmlspecialchars($t["username"]) . "</option>";
+                }
+                ?>
             </select><br>
 
             <fieldset>

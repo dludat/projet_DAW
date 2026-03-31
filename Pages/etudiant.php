@@ -1,5 +1,5 @@
 <?php
-
+include "../config/Ticket.php"; //Connection BDD
 //Superglobal $_SESSION utiliser pas encore vu en CM:
 //https://www.php.net/manual/en/function.session-start.php
 
@@ -24,9 +24,6 @@ if (isset($_SESSION['succes'])) {
     echo "<p style='color:green'>" . $_SESSION['succes'] .'</p>';
     unset($_SESSION['succes']);
 }
-
-
-//télécharger et préparer les données pour le tableau
 ?>
 
 <!DOCTYPE html>
@@ -67,6 +64,24 @@ if (isset($_SESSION['succes'])) {
                 <th>statut</th>
                 <th>dernier commentaire</th>
             </tr>
+
+            <?php //Télécharger et afficher les tickets de la BDD
+            $BDD = new ConnectionBDD();
+            $data = $BDD->get_students_tickets_info($_SESSION["user_id"]); //consulter BDD
+            while ($ligne = $data->fetch()): //afficher les tickets?>
+            <tr class="appuyable">
+                <td><?php echo htmlspecialchars($ligne['id']); ?></td>
+                <td><?php echo htmlspecialchars($_SESSION['username']); //ici seulement tickets d'utilisateur actuel; ?></td>
+                <td><?php echo htmlspecialchars($ligne['title']); ?></td>
+                <td><?php echo htmlspecialchars($ligne['category_id']); //converti par javascript dans text?></td>
+                <td><?php echo htmlspecialchars($ligne['priority_id']); //converti par javascript dans text?></td>
+                <td><?php echo htmlspecialchars($ligne['created_at']); ?></td>
+                <td><?php echo htmlspecialchars($ligne['status_id']); //converti par javascript dans text?></td>
+                <td><?php echo htmlspecialchars($ligne['message']);?>
+                </td>
+            </tr>
+            
+            <?php endwhile ?>
             <tr class="appuyable" data-href="./tickets.php?id=1">
                 <td>1</td>
                 <td>David Ludat</td>
