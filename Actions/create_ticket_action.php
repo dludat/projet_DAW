@@ -1,5 +1,5 @@
 <?php
-include '../config/Ticket.php';
+include '../config/Database_tickets.php';
 
 session_start();
 //Tableau erreurs
@@ -31,15 +31,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $categorie = intval($_POST["categorie"]) ?? 0;
-    if ($categorie <=   0 or $categorie > 3) {
+    if ($categorie <= 0 or $categorie > 3) {
         $erreurs[] = "Il y a seulement les catégories cours, TD et TP. Veuillez en selectionner un.";
     }
 
     $description = htmlspecialchars($_POST["description"]) ?? "";
     if ($description === "") {
-        $erreurs[] = " Veuillez décrire votre problème en détail. Sinon il est probablement pas possible de vous aider.";
+        $erreurs[] = "Veuillez décrire votre problème en détail. Sinon il est probablement pas possible de vous aider.";
     }
     //vérifier s'il y a ce cours avec ce tuteur (tutor_subjects)
+    $existe = $BDD->consulter_tutor_subjects($tuteur, $cours);
+    //echo $temp->fetch();
+    if ($existe->fetch() === false) {
+        $erreurs[] = "Il n'y a pas ce cours qui est enseigné par le tuteur indiqué.";
+    }
 
     $id_auteur = intval($_SESSION["user_id"]);
     $statut = 1; //après création, ticket toujours ouvert
@@ -54,10 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         //inserer ticket dans la BDD
         $BDD->inserer_ticket($id_auteur, $cours, $tuteur, $categorie, $priorite, $statut, $titre, $description);
-        echo "salut";
         $_SESSION["succes"] = "Ticket a été créé avec succès";
-        //header("Location: ../Pages/etudiant.php");
-        //exit();
+        header("Location: ../Pages/etudiant.php");
+        exit();
     }
 }
 ?>

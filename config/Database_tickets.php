@@ -63,7 +63,8 @@ class ConnectionBDD {
         //consulter BDD pour obtenir le dernier commentaire d'un ticket
         try {
             $stmt = $this->pdo->prepare(
-                "SELECT * FROM comments WHERE ticket_id = :ticket_id AND created_at = (SELECT MAX(created_at) FROM Tickets)");
+                "SELECT * FROM comments WHERE ticket_id = :ticket_id AND created_at = (SELECT MAX(created_at) 
+                FROM Tickets)");
             $stmt->bindValue(":ticket_id", $ticket_id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt;
@@ -76,8 +77,14 @@ class ConnectionBDD {
         //consulter BDD pour obtenir tickets de l'étudiant avec le dernier commentaire qui était écrit pour chaque ticket
         try {
             $stmt = $this->pdo->prepare(
-                "SELECT * FROM tickets T JOIN users U ON T.author_id = U.id JOIN comments C ON T.id = C.ticket_id WHERE U.id = :user_id AND C.created_at = 
-                (SELECT MAX(created_at) FROM comments WHERE ticket_id = T.id LIMIT 1) ORDER BY C.created_at DESC");
+                "SELECT T.id AS id, S.name, assigned_tutor_id AS tutor_id, status_id, title, description, 
+                C.message, C.created_at as comment_date, T.created_at
+                FROM tickets T JOIN (SELECT id FROM users) AS U ON T.author_id = U.id 
+                JOIN (SELECT id, name FROM subjects) AS S ON T.subject_id = S.id 
+                LEFT JOIN comments C ON T.id = C.ticket_id 
+                WHERE U.id = :user_id AND (C.created_at = 
+                (SELECT MAX(created_at) FROM comments WHERE ticket_id = T.id LIMIT 1) OR C.created_at IS NULL)
+                ORDER BY C.created_at, T.id DESC");
             $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt;
@@ -100,7 +107,8 @@ class ConnectionBDD {
     public function get_tutors(): PDOStatement {
         //consulter BDD et retourner tous les tuteurs qui enseignent un cours avec leurs noms associés
         try {
-            $stmt = $this->pdo->prepare("SELECT DISTINCT tutor_id, username FROM tutor_subjects JOIN users ON tutor_id = id WHERE role = 'tutor'");
+            $stmt = $this->pdo->prepare("SELECT DISTINCT tutor_id, username FROM tutor_subjects JOIN users 
+            ON tutor_id = id WHERE role = 'tutor'");
             $stmt->execute();
             return $stmt;
         } catch (PDOException $e) { 
@@ -108,7 +116,22 @@ class ConnectionBDD {
         }
     }
 
-    public function inserer_ticket(int $author_id, int $subject_id, int $tutor_id, int $category_id, int $priority_id, int $status_id, string $title, string $description) : void {
+    public function consulter_tutor_subjects(int $tutor_id, int $subject_id) : PDOStatement {
+        //consulter BDD pour voir si existe cours avec ce tuteur
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM tutor_subjects JOIN users ON tutor_id = id 
+            WHERE role ='tutor' AND :cours_id = subject_id AND :tutor_id = tutor_id");
+            $stmt->bindValue(":tutor_id", $tutor_id, PDO::PARAM_INT);
+            $stmt->bindValue(":cours_id", $subject_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function inserer_ticket(int $author_id, int $subject_id, int $tutor_id, int $category_id, 
+        int $priority_id, int $status_id, string $title, string $description) : void {
         try { //preparer query
             $stmt = $this->pdo->prepare(
                 "INSERT INTO tickets (author_id, subject_id, assigned_tutor_id, category_id, priority_id, status_id, title, description)

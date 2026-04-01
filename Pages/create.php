@@ -1,5 +1,5 @@
 <?php
-include "../config/Ticket.php";
+include "../config/Database_tickets.php";
 
 session_start();
 //afficher les erreurs

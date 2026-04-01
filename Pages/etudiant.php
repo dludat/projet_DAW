@@ -1,5 +1,6 @@
 <?php
-include "../config/Ticket.php"; //Connection BDD
+include "../config/Database_tickets.php"; //Connection BDD
+include "../config/convertir_valeurs.php"; //Convertir ints de statut etc en texte
 //Superglobal $_SESSION utiliser pas encore vu en CM:
 //https://www.php.net/manual/en/function.session-start.php
 
@@ -24,6 +25,11 @@ if (isset($_SESSION['succes'])) {
     echo "<p style='color:green'>" . $_SESSION['succes'] .'</p>';
     unset($_SESSION['succes']);
 }
+
+//Télécharger et préparer les données pour les afficher
+$BDD = new ConnectionBDD();
+$data = $BDD->get_students_tickets_info($_SESSION["user_id"]); //consulter BDD
+$tickets_etudiant = $data->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -51,68 +57,50 @@ if (isset($_SESSION['succes'])) {
         <button type="button" id="creer_ticket" onclick="window.location.href='./create.php'">Créer nouveau ticket</button>
         <h4>Tes tickets:</h4>
 
-
+        <?php if (count($tickets_etudiant) === 0): //Pas encore de tickets de l'étudiant?>
+        <p>Vous avez pas encore créer des tickets. Pour en voir, veuillez les créer.</p>
+        <?php else: //Afficher les tickets?>
         <table>
             <caption>Votre tickets:</caption>
             <tr>
                 <th>id</th>
                 <th>créateur</th>
                 <th>titre</th>
-                <th>catégorie</th>
-                <th>priorité</th>
+                <th>Cours</th>
+                <th>Statut</th>
                 <th>date de création</th>
-                <th>statut</th>
                 <th>dernier commentaire</th>
             </tr>
 
-            <?php //Télécharger et afficher les tickets de la BDD
-            $BDD = new ConnectionBDD();
-            $data = $BDD->get_students_tickets_info($_SESSION["user_id"]); //consulter BDD
-            while ($ligne = $data->fetch()): //afficher les tickets?>
-            <tr class="appuyable">
-                <td><?php echo htmlspecialchars($ligne['id']); ?></td>
-                <td><?php echo htmlspecialchars($_SESSION['username']); //ici seulement tickets d'utilisateur actuel; ?></td>
-                <td><?php echo htmlspecialchars($ligne['title']); ?></td>
-                <td><?php echo htmlspecialchars($ligne['category_id']); //converti par javascript dans text?></td>
-                <td><?php echo htmlspecialchars($ligne['priority_id']); //converti par javascript dans text?></td>
-                <td><?php echo htmlspecialchars($ligne['created_at']); ?></td>
-                <td><?php echo htmlspecialchars($ligne['status_id']); //converti par javascript dans text?></td>
-                <td><?php echo htmlspecialchars($ligne['message']);?>
-                </td>
-            </tr>
-            
-            <?php endwhile ?>
-            <tr class="appuyable" data-href="./tickets.php?id=1">
-                <td>1</td>
-                <td>David Ludat</td>
-                <td>Problèmes avec l'inscription Plubel</td>
-                <td>Cours</td>
-                <td>Haute</td>
-                <td>22/07/21</td>
-                <td>Ouvert</td>
-                <td>J'en travaille, Ryan, 29/07/21</td>
-            </tr>
+            <?php //Afficher les tickets de la BDD
+            foreach ($tickets_etudiant as $ticket) {//afficher les tickets
+                echo "<tr class='appuyable' data-href=" . $ticket['id'] . "</td>"; //pour appuyer et le paramètre get
+                echo "<td>" . htmlspecialchars($ticket['id']) . "</td>";
+                echo "<td>" . htmlspecialchars($_SESSION['username']). "</td>"; //ici seulement tickets d'utilisateur actuel
+                echo "<td>" . htmlspecialchars($ticket['title']) . "</td>";
+                echo "<td>" . htmlspecialchars($ticket['name']) . "</td>"; //nom du cours
+                echo "<td>" . convertir_statut($ticket['status_id']) . "</td>";
+                echo "<td>" . htmlspecialchars($ticket['created_at']) . "</td>";
+                if ($ticket['message'] != '') { //éviter message vide sans date
+                    echo "<td>" . htmlspecialchars($ticket['message']) . "\nà " . 
+                    htmlspecialchars($ticket['comment_date']) . "</td>";
+                } else {
+                    echo "<td>Pas encore de commentaires</td>";
+                }
+                echo "</tr>";
+            } //end foreach?>
             <tr class="appuyable" data-href="./tickets.php?id=2">
                 <td>1</td>
                 <td>David Ludat</td>
                 <td>Problèmes avec l'inscription Plubel</td>
-                <td>Cours</td>
-                <td>Haute</td>
-                <td>22/07/21</td>
+                <td>DAW</td>
                 <td>Ouvert</td>
-                <td>J'en travaille, Ryan, 29/07/21</td>
-            </tr>
-            <tr class="appuyable" data-href="./tickets.php?id=3">
-                <td>1</td>
-                <td>David Ludat</td>
-                <td>Problèmes avec l'inscription Plubel</td>
-                <td>Cours</td>
-                <td>Haute</td>
                 <td>22/07/21</td>
-                <td>Ouvert</td>
                 <td>J'en travaille, Ryan, 29/07/21</td>
             </tr>
         </table>
+        <?php endif ?>
+
         <script src="../javascript/etudiant.js"></script>
     </body>
 </html>
