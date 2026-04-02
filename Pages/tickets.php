@@ -59,16 +59,6 @@ $commentaires = $BDD->get_commentaires($ticket_id)->fetchAll(); //récupérer to
             echo "<td>". $ticket_info["created_at"] . "</td>";
             ?>
             </tr>
-            <tr>
-                <td id="ticket_id">1</td>
-                <td id="auteur">David Ludat</td>
-                <td id="titre">Problème</td>
-                <td id="categorie" value="3">TP</td>
-                <td id="priorite" value="3">Haute</td>
-                <td id="date">22/03/2026</td>
-                <td id="statut" value="1">Ouvert</td>
-                <td id="commentaire_dern">Hallo</td>
-            </tr>
         </table>
 
         <?php if (count($commentaires) == 0): //Pas encore des commentaires?>

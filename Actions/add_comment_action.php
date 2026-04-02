@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] ==="POST") {
 
         //Commentaire succès
         $_SESSION["succes"] = "Le commentaire a été créé";
-        header("Location: ../Pages/tickets.php");
+        header("Location: ../Pages/tickets.php?id=" . $id_ticket);
         exit();
     }
 
