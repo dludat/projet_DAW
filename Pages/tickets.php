@@ -1,7 +1,10 @@
 <?php
+include "../config/Database_tickets.php"; //connection BDD
+include "../config/convertir_valeurs.php"; //convertir statut etc
+
 //Récuperer Données
 session_start();
-$ticket_id = $_GET["id"];
+$ticket_id = intval($_GET["id"]); //Sécuriser contre XSS
 $role = $_SESSION["role"]; //Variable défini en se connectant
 
 $role = "tuteur"; //pour un test
@@ -19,13 +22,10 @@ if (isset($_SESSION["error"])) {
 }
 
 //Télécharger les données du ticket
-//Télécharger tous les commentaires
-//Inserer les données dans le tableau en modifiant aussi les attributes values
-$priorite_actuel;
-$statut_actuel;
-$categorie_actuel;
+$BDD = new ConnectionBDD();
+$ticket_info = $BDD->get_ticket($ticket_id)->fetch(); //récupérer informations du ticket
+$commentaires = $BDD->get_commentaires($ticket_id)->fetchAll(); //récupérer tous les commentaires
 ?>
-
 <html>
     <head>
         <title>Vu en détail des tickets</title>
@@ -35,14 +35,29 @@ $categorie_actuel;
         <table id="info_ticket">
             <caption>Informations importantes</caption>
             <tr>
-                <th>id</th>
                 <th>créateur</th>
                 <th>titre</th>
-                <th>catégorie</th>
-                <th>priorité</th>
+                <th>Déscription</th>
+                <th>Cours</th>
+                <th>Tuteur</th>
+                <th>Catégorie</th>
+                <th>Statut</th>
+                <th>Priorité</th>
                 <th>date de création</th>
-                <th>statut</th>
-                <th>dernier commentaire</th>
+            </tr>
+            <tr>
+            <?php //Afficher les infos récupéré du BDD
+            echo "<td>" . $ticket_info["author_name"] . "</td>";
+            echo "<td>" . $ticket_info["title"] . "</td>";
+            echo "<td>" . $ticket_info["description"] . "</td>";
+            echo "<td>" . $ticket_info["name"] . "</td>";
+            echo "<td>" . $ticket_info["tutor_name"] . "</td>";
+            //Convertir les nombres en texte dans les prochaines informations
+            echo "<td>" . convertir_categorie($ticket_info["category_id"]) . "</td>";
+            echo "<td>". convertir_statut($ticket_info["status_id"]) . "</td>";
+            echo "<td>". convertir_statut($ticket_info["priority_id"]) . "</td>";
+            echo "<td>". $ticket_info["created_at"] . "</td>";
+            ?>
             </tr>
             <tr>
                 <td id="ticket_id">1</td>
@@ -56,6 +71,9 @@ $categorie_actuel;
             </tr>
         </table>
 
+        <?php if (count($commentaires) == 0): //Pas encore des commentaires?>
+        <p>Il n'y a pas encore des commentaires. Seriez le premier qui en écrit.</p>
+        <?php else:?>
         <table>
             <caption>Commentaires</caption>
             <tr>
@@ -64,7 +82,18 @@ $categorie_actuel;
                 <th>Role de l'auteur</th>
                 <th>Message</th>
             </tr>
+            <?php //Afficher tous les commentaires
+            foreach ($commentaires as $commentaires_item) {
+                echo "<tr>";
+                echo "<td>". $commentaires_item["created_at"] ."</td>";
+                echo "<td>". $commentaires_item["username"] . "</td>";
+                echo "<td>". $commentaires_item["role"] . "</td>";
+                echo "<td>". $commentaires_item["message"] . "</td>";
+                echo "</tr>";
+            } ?>
         </table>
+        <?php endif;?>
+
         <h3>Ajouter commentaire</h3>
         <form id="nv_commentaire" action="../Actions/add_comment_action.php" method="post">
             <input type="hidden" name="id_ticket" value="<?php echo $ticket_id;?>"><br>
