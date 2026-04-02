@@ -74,7 +74,7 @@ $tickets_etudiant = $data->fetchAll();
 
             <?php //Afficher les tickets de la BDD
             foreach ($tickets_etudiant as $ticket) {//afficher les tickets
-                echo "<tr class='appuyable' data-href=" . $ticket['id'] . "</td>"; //pour appuyer et le paramètre get
+                echo "<tr class='appuyable' data-href='../Pages/tickets.php?id=" . $ticket['id'] . "'"; //pour appuyer et le paramètre get
                 echo "<td>" . htmlspecialchars($ticket['id']) . "</td>";
                 echo "<td>" . htmlspecialchars($_SESSION['username']). "</td>"; //ici seulement tickets d'utilisateur actuel
                 echo "<td>" . htmlspecialchars($ticket['title']) . "</td>";
@@ -82,7 +82,7 @@ $tickets_etudiant = $data->fetchAll();
                 echo "<td>" . convertir_statut($ticket['status_id']) . "</td>";
                 echo "<td>" . htmlspecialchars($ticket['created_at']) . "</td>";
                 if ($ticket['message'] != '') { //éviter message vide sans date
-                    echo "<td>" . htmlspecialchars($ticket['message']) . "\nà " . 
+                    echo "<td>" . htmlspecialchars($ticket['message']) . "\n " . 
                     htmlspecialchars($ticket['comment_date']) . "</td>";
                 } else {
                     echo "<td>Pas encore de commentaires</td>";

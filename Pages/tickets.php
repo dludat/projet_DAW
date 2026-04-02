@@ -38,10 +38,9 @@ $categorie_actuel;
                 <th>id</th>
                 <th>créateur</th>
                 <th>titre</th>
-                <th>catégorie</th>
-                <th>priorité</th>
+                <th>Cours</th>
+                <th>Statut</th>
                 <th>date de création</th>
-                <th>statut</th>
                 <th>dernier commentaire</th>
             </tr>
             <tr>
