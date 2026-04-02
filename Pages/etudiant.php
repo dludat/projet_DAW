@@ -28,7 +28,7 @@ if (isset($_SESSION['succes'])) {
 
 //Télécharger et préparer les données pour les afficher
 $BDD = new ConnectionBDD();
-$data = $BDD->get_students_tickets_info($_SESSION["user_id"]); //consulter BDD
+$data = $BDD->get_students_tickets($_SESSION["user_id"]); //consulter BDD
 $tickets_etudiant = $data->fetchAll();
 ?>
 
@@ -74,15 +74,15 @@ $tickets_etudiant = $data->fetchAll();
 
             <?php //Afficher les tickets de la BDD
             foreach ($tickets_etudiant as $ticket) {//afficher les tickets
-                echo "<tr class='appuyable' data-href='../Pages/tickets.php?id=" . $ticket['id'] . "'"; //pour appuyer et le paramètre get
-                echo "<td>" . htmlspecialchars($ticket['id']) . "</td>";
+                echo "<tr class='appuyable' data-href='../Pages/tickets.php?id=" . $ticket['id'] . "'>"; //pour appuyer et le paramètre get
+                echo "<td>" . htmlspecialchars($ticket['id']). "</td>";
                 echo "<td>" . htmlspecialchars($_SESSION['username']). "</td>"; //ici seulement tickets d'utilisateur actuel
                 echo "<td>" . htmlspecialchars($ticket['title']) . "</td>";
                 echo "<td>" . htmlspecialchars($ticket['name']) . "</td>"; //nom du cours
                 echo "<td>" . convertir_statut($ticket['status_id']) . "</td>";
                 echo "<td>" . htmlspecialchars($ticket['created_at']) . "</td>";
                 if ($ticket['message'] != '') { //éviter message vide sans date
-                    echo "<td>" . htmlspecialchars($ticket['message']) . "\n " . 
+                    echo "<td>" . htmlspecialchars($ticket['message']) . "\nle " . 
                     htmlspecialchars($ticket['comment_date']) . "</td>";
                 } else {
                     echo "<td>Pas encore de commentaires</td>";
