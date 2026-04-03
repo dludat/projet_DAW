@@ -53,9 +53,10 @@ $commentaires = $BDD->get_commentaires($ticket_id)->fetchAll(); //récupérer to
             echo "<td>" . $ticket_info["name"] . "</td>";
             echo "<td>" . $ticket_info["tutor_name"] . "</td>";
             //Convertir les nombres en texte dans les prochaines informations
-            echo "<td>" . convertir_categorie($ticket_info["category_id"]) . "</td>";
-            echo "<td>". convertir_statut($ticket_info["status_id"]) . "</td>";
-            echo "<td>". convertir_statut($ticket_info["priority_id"]) . "</td>";
+            //value nécessaire pour la préparation du formulaire
+            echo "<td id ='categorie' value='". $ticket_info["category_id"]. "'>" . convertir_categorie($ticket_info["category_id"]) . "</td>";
+            echo "<td id ='statut' value='". $ticket_info["status_id"]. "'>" . convertir_statut($ticket_info["status_id"]) . "</td>";
+            echo "<td id = 'priorite' value='". $ticket_info["priority_id"]. "'>". convertir_priorite($ticket_info["priority_id"]) . "</td>";
             echo "<td>". $ticket_info["created_at"] . "</td>";
             ?>
             </tr>

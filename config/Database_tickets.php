@@ -2,10 +2,9 @@
 /*Fonctions nécessaire:
 GET Données:
 get_tutors:     SELECT DISTINCT tutor_id FROM tutors_subjects;
-get_ticket(<id>): SELECT * FROM Tickets WHERE id = <id>;
 
 Inserer Données:
-insert_commentaire: INSERT INTO comments VALUES (...);
+fini
 
 Modifier Données:
 change_status(<ticket_id>): UPDATE Tickets SET status_id = new_statut;
@@ -41,7 +40,7 @@ class ConnectionBDD {
         //consulter BDD et récupérer tous les commentaires d'un ticket
         try {
             $stmt = $this->pdo->prepare('SELECT * FROM comments
-                JOIN (SELECT username, id FROM users) AS U ON U.id = author_id
+                JOIN (SELECT username, id, role FROM users) AS U ON U.id = author_id
                 WHERE :ticket_id = ticket_id ORDER BY created_at DESC');
             $stmt->bindParam(':ticket_id', $ticket_id, PDO::PARAM_INT);
             $stmt->execute();
@@ -70,6 +69,17 @@ class ConnectionBDD {
         }
     }
 
+        public function get_subjects(): PDOStatement {
+        //consulter BDD et retourner tous les cours possibles
+        try {
+            $stmt = $this->pdo->prepare("SELECT id, name FROM subjects");
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function get_ticket(int $ticket_id) : PDOStatement{
         try {
             $stmt = $this->pdo->prepare("SELECT U2.username AS author_name, title, description, S.name, 
@@ -80,17 +90,6 @@ class ConnectionBDD {
                 JOIN (SELECT id, username FROM users) AS U2 ON U2.id = T.author_id
                 WHERE :ticket_id = T.id LIMIT 1");
             $stmt->bindValue(":ticket_id", $ticket_id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
-
-    public function get_subjects(): PDOStatement {
-        //consulter BDD et retourner tous les cours possibles
-        try {
-            $stmt = $this->pdo->prepare("SELECT id, name FROM subjects");
             $stmt->execute();
             return $stmt;
         } catch (PDOException $e) {
@@ -110,7 +109,7 @@ class ConnectionBDD {
         }
     }
 
-    public function consulter_tutor_subjects(int $tutor_id, int $subject_id) : PDOStatement {
+    public function get_tutor_subjects(int $tutor_id, int $subject_id) : PDOStatement {
         //consulter BDD pour voir si existe cours avec ce tuteur
         try {
             $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tutor_subjects 
@@ -125,12 +124,28 @@ class ConnectionBDD {
         }
     }
 
+    public function inserer_commentaire(int $ticket_id, int $author_id, string $message) : void {
+        try {
+            $stmt = $this->pdo->prepare(
+                "INSERT INTO comments (ticket_id, author_id, message) 
+                VALUES (:ticket_id, :author_id, :message)");
+            $stmt->bindValue(":ticket_id", $ticket_id, PDO::PARAM_INT);
+            $stmt->bindValue(":author_id", $author_id, PDO::PARAM_INT);
+            $stmt->bindValue(":message", $message, PDO::PARAM_STR);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function inserer_ticket(int $author_id, int $subject_id, int $tutor_id, int $category_id, 
         int $priority_id, int $status_id, string $title, string $description) : void {
         try { //preparer query
             $stmt = $this->pdo->prepare(
-                "INSERT INTO tickets (author_id, subject_id, assigned_tutor_id, category_id, priority_id, status_id, title, description)
-                VALUES (:author_id, :subject_id, :assigned_tutor_id, :category_id, :priority_id, :status_id, :title, :description)");
+                "INSERT INTO tickets (author_id, subject_id, assigned_tutor_id, category_id, priority_id, 
+                status_id, title, description)
+                VALUES (:author_id, :subject_id, :assigned_tutor_id, :category_id, :priority_id, :status_id, 
+                :title, :description)");
             $stmt->bindValue(":author_id", $author_id, PDO::PARAM_INT);
             $stmt->bindValue(":subject_id", $subject_id, PDO::PARAM_INT);
             $stmt->bindValue(":assigned_tutor_id", $tutor_id, PDO::PARAM_INT);
@@ -141,6 +156,21 @@ class ConnectionBDD {
             $stmt->bindValue(":description", $description, PDO::PARAM_STR);
             $stmt->execute();
 
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function update_ticket(int $ticket_id, int $category_id, int $status_id, int $priority_id) : void {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE tickets SET status_id = :new_statut, category_id = :new_category,
+                priority_id = :new_priority WHERE id = :ticket_id");
+            $stmt->bindValue(":ticket_id", $ticket_id, PDO::PARAM_INT);
+            $stmt->bindValue(":new_category", $category_id, PDO::PARAM_INT);
+            $stmt->bindValue("new_statut", $status_id, PDO::PARAM_INT);
+            $stmt->bindValue("new_priority", $priority_id, PDO::PARAM_INT);
+            $stmt->execute();
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

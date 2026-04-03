@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $erreurs[] = "Veuillez décrire votre problème en détail. Sinon il est probablement pas possible de vous aider.";
     }
     //vérifier s'il y a ce cours avec ce tuteur (tutor_subjects)
-    $existe = $BDD->consulter_tutor_subjects($tuteur, $cours);
+    $existe = $BDD->get_tutor_subjects($tuteur, $cours);
     //echo $temp->fetch();
     if ($existe->fetch() === false) {
         $erreurs[] = "Il n'y a pas ce cours qui est enseigné par le tuteur indiqué.";

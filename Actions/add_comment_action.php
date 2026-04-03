@@ -1,5 +1,5 @@
 <?php
-include "../config/Database.php";
+include "../config/Database_tickets.php";
 
 session_start();
 //Valider les données de la formulaire
@@ -23,6 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] ==="POST") {
         exit();
     } else {
         //Insertion dans la BDD
+        $BDD = new ConnectionBDD();
+        $BDD->inserer_commentaire($id_ticket, $id_auteur, $contenu);
 
         //Commentaire succès
         $_SESSION["succes"] = "Le commentaire a été créé";

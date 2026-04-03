@@ -1,4 +1,7 @@
 <?php
+include "../config/Database_tickets.php";
+
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //Récupérer les données
     $erreurs = array();
@@ -20,10 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     if (empty($erreurs)) {
         //Modifier la base de données
-
+        $BDD = new ConnectionBDD();
+        $BDD->update_ticket($ticket_id, $categorie, $statut, $priorite);
+        
         //afficher le succes
         $_SERVER["succes"] = "La modification a été un succès.";
-        header("Location: ../Pages/tickets.php");
+        header("Location: ../Pages/tickets.php?id=" . $ticket_id);
         exit();
     } else {
         //afficher les erreurs
@@ -31,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         foreach ($erreurs as $e) { 
             $_SERVER["error"] .= $e . "\n";
         }
-        header("Location: ../Pages/tickets.php");
+        header("Location: ../Pages/tickets.phpid=" . $ticket_id);
         exit();
     }
 }
