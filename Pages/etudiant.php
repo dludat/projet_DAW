@@ -82,7 +82,7 @@ $tickets_etudiant = $data->fetchAll();
                 echo "<td>" . convertir_statut($ticket['status_id']) . "</td>";
                 echo "<td>" . htmlspecialchars($ticket['created_at']) . "</td>";
                 if ($ticket['message'] != '') { //éviter message vide sans date
-                    echo "<td>" . htmlspecialchars($ticket['message']) . "\nle " . 
+                    echo "<td>" . htmlspecialchars($ticket['message']) . "<br>le " . 
                     htmlspecialchars($ticket['comment_date']) . "</td>";
                 } else {
                     echo "<td>Pas encore de commentaires</td>";

@@ -7,8 +7,6 @@ session_start();
 $ticket_id = intval($_GET["id"]); //Sécuriser contre XSS
 $role = $_SESSION["role"]; //Variable défini en se connectant
 
-$role = "tuteur"; //pour un test
-
 //Message de succès p. ex. après la création d'une ticket
 if (isset($_SESSION["succes"])) {
     echo "<p id='succes' style='color:green'> " . $_SESSION["succes"] . "</p>";

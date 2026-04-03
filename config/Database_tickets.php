@@ -69,6 +69,25 @@ class ConnectionBDD {
         }
     }
 
+    public function get_all_tickets() : PDOStatement {
+        try { //consulter BDD et recevoir tous les tickets créer par cet utilisateur avec info courte
+            $stmt = $this->pdo->prepare(
+                "SELECT T.id AS id, title, S.name, status_id, T.created_at, C.message, 
+                C.created_at AS comment_date, U.username AS author_name
+                FROM tickets T 
+                JOIN (SELECT id, name FROM subjects) AS S ON T.subject_id = S.id
+                JOIN (SELECT id, username FROM users) AS U ON T.author_id = U.id
+                LEFT JOIN comments AS C ON T.id = C.ticket_id 
+                WHERE C.created_at = (SELECT MAX(created_at) FROM comments WHERE ticket_id = T.id LIMIT 1) 
+                OR C.created_at IS NULL
+                ORDER BY C.created_at, T.id DESC"); //ici aussi le nom d'auteur important, car peut etre différent
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
         public function get_subjects(): PDOStatement {
         //consulter BDD et retourner tous les cours possibles
         try {

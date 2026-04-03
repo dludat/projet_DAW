@@ -1,5 +1,6 @@
 <?php
-
+include "../config/Database_tickets.php"; //Connection BDD
+include "../config/convertir_valeurs.php"; //Convertir ints de statut etc en texte
 //Superglobal $_SESSION utiliser pas encore vu en CM:
 //https://www.php.net/manual/en/function.session-start.php
 
@@ -8,19 +9,27 @@ session_start();
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION["user_id"])) {
-
     // Message si l'utilisateur n'est pas connecté & Redirige menu principal
     echo "Vous devez être connecté.";
     echo '<p><a href="index.php">Retour à l\'accueil</a></p>';
 }
 
-
-//action avec success
-if (isset($_SESSION["success"])) {
-    echo "<p id='succes' style='color:green'> " . $_SESSION["succes"] . "</p>";
-    unset($_SESSION["success"]); 
+//Rédirection en cas de role faux
+if ($_SESSION['role'] == 'student') {
+    header('Location: etudiant.php');
+    exit();
 }
 
+//afficher que l'action a été effectué
+if (isset($_SESSION['succes'])) {
+    echo "<p style='color:green'>" . $_SESSION['succes'] .'</p>';
+    unset($_SESSION['succes']);
+}
+
+//Télécharger et préparer les données pour les afficher
+$BDD = new ConnectionBDD();
+$data = $BDD->get_all_tickets($_SESSION["user_id"]); //consulter BDD
+$tickets_etudiant = $data->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +37,7 @@ if (isset($_SESSION["success"])) {
     <head>
         <meta charset="UTF-8">
         <title>Espace utilisateur - Helpdesk</title>
-        <link rel="stylesheet" href="../css/tuteur.css">
+        <link rel="stylesheet" href="../css/etudiant.css">
     </head>
     <body>
         <h1>Espace utilisateur</h1>
@@ -41,62 +50,57 @@ if (isset($_SESSION["success"])) {
             <strong><?= htmlspecialchars($_SESSION['role']) ?></strong>
         </p>
 
-        <p>Connexion réussie :)</p>
+        <p>Connexion réussie :) </p>
         <p><a href="logout.php">Se déconnecter</a></p>
 
         <h3>Démarre maintenant tes actions!</h3>
         <button type="button" id="creer_ticket" onclick="window.location.href='./create.php'">Créer nouveau ticket</button>
         <h4>Tes tickets:</h4>
 
-
+        <?php if (count($tickets_etudiant) === 0): //Pas encore de tickets de l'étudiant?>
+        <p>Vous avez pas encore créer des tickets. Pour en voir, veuillez les créer.</p>
+        <?php else: //Afficher les tickets?>
         <table>
             <caption>Votre tickets:</caption>
             <tr>
                 <th>id</th>
                 <th>créateur</th>
                 <th>titre</th>
-                <th>catégorie</th>
-                <th>priorité</th>
+                <th>Cours</th>
+                <th>Statut</th>
                 <th>date de création</th>
-                <th>statut</th>
                 <th>dernier commentaire</th>
             </tr>
-            <tr class="appuyable" data-href="./tickets.php?id=1">
-                    <td>1</td>
-                    <td>David Ludat</td>
-                    <td>Problèmes avec l'inscription Plubel</td>
-                    <td>Cours</td>
-                    <td>Haute</td>
-                    <td>22/07/21</td>
-                    <td>Ouvert</td>
-                    <td>J'en travaille, Ryan, 29/07/21</td>
-            </tr>
+
+            <?php //Afficher les tickets de la BDD
+            foreach ($tickets_etudiant as $ticket) {//afficher les tickets
+                echo "<tr class='appuyable' data-href='../Pages/tickets.php?id=" . $ticket['id'] . "'>"; //pour appuyer et le paramètre get
+                echo "<td>" . htmlspecialchars($ticket['id']). "</td>";
+                echo "<td>" . htmlspecialchars($ticket['author_name']). "</td>"; //ici seulement tickets d'utilisateur actuel
+                echo "<td>" . htmlspecialchars($ticket['title']) . "</td>";
+                echo "<td>" . htmlspecialchars($ticket['name']) . "</td>"; //nom du cours
+                echo "<td>" . convertir_statut($ticket['status_id']) . "</td>";
+                echo "<td>" . htmlspecialchars($ticket['created_at']) . "</td>";
+                if ($ticket['message'] != '') { //éviter message vide sans date
+                    echo "<td>" . htmlspecialchars($ticket['message']) . "<br>le " . 
+                    htmlspecialchars($ticket['comment_date']) . "</td>";
+                } else {
+                    echo "<td>Pas encore de commentaires</td>";
+                }
+                echo "</tr>";
+            } //end foreach?>
             <tr class="appuyable" data-href="./tickets.php?id=2">
                 <td>1</td>
                 <td>David Ludat</td>
                 <td>Problèmes avec l'inscription Plubel</td>
-                <td>Cours</td>
-                <td>Haute</td>
-                <td>22/07/21</td>
+                <td>DAW</td>
                 <td>Ouvert</td>
-                <td>J'en travaille, Ryan, 29/07/21</td>
-            </tr>
-            <tr class="appuyable" data-href="./tickets.php?id=3">
-                <td>1</td>
-                <td>David Ludat</td>
-                <td>Problèmes avec l'inscription Plubel</td>
-                <td>Cours</td>
-                <td>Haute</td>
                 <td>22/07/21</td>
-                <td>Ouvert</td>
                 <td>J'en travaille, Ryan, 29/07/21</td>
             </tr>
         </table>
-        <script src="../javascript/tuteur.js"></script>
+        <?php endif ?>
+
+        <script src="../javascript/etudiant.js"></script>
     </body>
 </html>
-
-<?php
-//Télécharger les données de la bd
-//les afficher en forme courte
-?>
