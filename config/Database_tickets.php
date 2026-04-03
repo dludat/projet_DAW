@@ -80,7 +80,7 @@ class ConnectionBDD {
                 LEFT JOIN comments AS C ON T.id = C.ticket_id 
                 WHERE C.created_at = (SELECT MAX(created_at) FROM comments WHERE ticket_id = T.id LIMIT 1) 
                 OR C.created_at IS NULL
-                ORDER BY C.created_at, T.id DESC"); //ici aussi le nom d'auteur important, car peut etre différent
+                ORDER BY COALESCE(C.created_at, T.id) DESC"); //ici aussi le nom d'auteur important, car peut etre différent
             $stmt->execute();
             return $stmt;
         } catch (PDOException $e) {

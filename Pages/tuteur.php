@@ -36,7 +36,7 @@ $tickets_etudiant = $data->fetchAll();
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>Espace utilisateur - Helpdesk</title>
+        <title>Espace tuteur - Helpdesk</title>
         <link rel="stylesheet" href="../css/etudiant.css">
     </head>
     <body>
@@ -55,6 +55,7 @@ $tickets_etudiant = $data->fetchAll();
 
         <h3>Démarre maintenant tes actions!</h3>
         <button type="button" id="creer_ticket" onclick="window.location.href='./create.php'">Créer nouveau ticket</button>
+        <button type="button" id="ajouter_cours_tuteur" onclick="window.location.href='./cours.php'">Ajouter nouveaux cours et tuteur à la base de donnée</button>
         <h4>Tes tickets:</h4>
 
         <?php if (count($tickets_etudiant) === 0): //Pas encore de tickets de l'étudiant?>
@@ -101,6 +102,6 @@ $tickets_etudiant = $data->fetchAll();
         </table>
         <?php endif ?>
 
-        <script src="../javascript/etudiant.js"></script>
+        <script src="../javascript/tuteur.js"></script>
     </body>
 </html>
