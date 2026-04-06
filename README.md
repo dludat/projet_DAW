@@ -41,7 +41,15 @@ Ce script va :
 `SHOW DATABASES;`
 
 
-## 6. Quitter MySQL
+## 6. Créer nouveau utilisateur pour localhost
+
+On execute les commandes suivants pour créeer un nouveau utilisateur et lui donne les droits nécessaires.
+`CREATE USER '[nom d'utilisateur]']@'localhost' IDENTIFIED BY '[mot de passe]';`
+`GRANT ALL PRIVILEGES ON helpdesk.* TO '[nom d'utilisateur]'@'localhost';`
+`FLUSH PRIVILEGES;`
+
+
+## 7. Quitter MySQL
 
 `EXIT;`
 
@@ -62,12 +70,18 @@ Sinon :
 `cd ~[CheminCompletVers]/projet_DAW/`
 
 
-# 3. Lancer le serveur PHP
+# 3. Definir variables pour la Connection BDD
+
+`export DB_USER=[nom d'utilisateur]`
+`export DB_PASS=[mot de passe]`
+
+
+# 4. Lancer le serveur PHP
 
 `php -S localhost:8000`
 
 
-# 4. Accéder au site
+# 5. Accéder au site
 Avec
 `http://localhost:8000/Pages/index.php`
 
