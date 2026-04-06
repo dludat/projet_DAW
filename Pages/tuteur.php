@@ -1,112 +1,71 @@
 <?php
-include "../config/Database_tickets.php"; //Connection BDD
-include "../config/convertir_valeurs.php"; //Convertir ints de statut etc en texte
-//Superglobal $_SESSION utiliser pas encore vu en CM:
-//https://www.php.net/manual/en/function.session-start.php
+include "../config/Database_tickets.php";
+include "../config/convertir_valeurs.php";
 
-// Démarre la session 
 session_start();
 
-// Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION["user_id"])) {
-    // Message si l'utilisateur n'est pas connecté & Redirige menu principal
-    echo "Vous devez être connecté.";
-    echo '<p><a href="index.php">Retour à l\'accueil</a></p>';
+    $_SESSION["error"] = "Vous devez etre connecte pour acceder a l'espace tuteur.";
+    header('Location: index.php');
+    exit();
 }
 
-//Rédirection en cas de role faux
 if ($_SESSION['role'] == 'student') {
     header('Location: etudiant.php');
     exit();
 }
 
-//afficher que l'action a été effectué
-if (isset($_SESSION['succes'])) {
-    echo "<p style='color:green'>" . $_SESSION['succes'] .'</p>';
-    unset($_SESSION['succes']);
-}
-
-if (isset($_SESSION["error"])) {
-    echo "<p id='erreur' style='color:red'> " . $_SESSION["error"] . "</p>";
-    unset($_SESSION["error"]); 
-}
-
-//Télécharger et préparer les données pour les afficher
 $BDD = new ConnectionBDD();
-$data = $BDD->get_all_tickets($_SESSION["user_id"]); //consulter BDD
+$data = $BDD->get_all_tickets($_SESSION["user_id"]);
 $tickets_etudiant = $data->fetchAll();
+
+require_once __DIR__ . '/menu.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Espace tuteur - Helpdesk</title>
-        <link rel="stylesheet" href="../css/etudiant.css">
-    </head>
-    <body>
-        <h1>Espace utilisateur</h1>
+<h2>Espace tuteur</h2>
+<p>Bonjour, <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></p>
+<p>Rôle: <strong><?= htmlspecialchars($_SESSION['role']) ?></strong></p>
+<p><a href="create.php">Créer un ticket</a></p>
+<p><a href="logout.php">Se déconnecter</a></p>
 
-        <p>Bonjour, 
-            <strong><?= htmlspecialchars($_SESSION['username']) ?></strong>
-        </p>
+<h3>Tickets à suivre</h3>
 
-        <p>Rôle: 
-            <strong><?= htmlspecialchars($_SESSION['role']) ?></strong>
-        </p>
+<?php if (count($tickets_etudiant) === 0): ?>
+    <p>Aucun ticket n'est encore disponible.</p>
+<?php else: ?>
+    <table>
+        <caption>Votre tickets:</caption>
+        <tr>
+            <th>id</th>
+            <th>créateur</th>
+            <th>titre</th>
+            <th>Cours</th>
+            <th>Statut</th>
+            <th>date de création</th>
+            <th>dernier commentaire</th>
+        </tr>
 
-        <p>Connexion réussie :) </p>
-        <p><a href="logout.php">Se déconnecter</a></p>
+        <?php
+        foreach ($tickets_etudiant as $ticket) {
+            echo "<tr class='appuyable' data-href='../Pages/tickets.php?id=" . $ticket['id'] . "'>";
+            echo "<td>" . htmlspecialchars($ticket['id']) . "</td>";
+            echo "<td>" . htmlspecialchars($ticket['author_name']) . "</td>";
+            echo "<td>" . htmlspecialchars($ticket['title']) . "</td>";
+            echo "<td>" . htmlspecialchars($ticket['name']) . "</td>";
+            echo "<td>" . convertir_statut($ticket['status_id']) . "</td>";
+            echo "<td>" . htmlspecialchars($ticket['created_at']) . "</td>";
+            if ($ticket['message'] != '') {
+                echo "<td>" . htmlspecialchars($ticket['message']) . "<br>le " .
+                htmlspecialchars($ticket['comment_date']) . "</td>";
+            } else {
+                echo "<td>Pas encore de commentaires</td>";
+            }
+            echo "</tr>";
+        }
+        ?>
+    </table>
+<?php endif; ?>
 
-        <h3>Démarre maintenant tes actions!</h3>
-        <button type="button" id="creer_ticket" onclick="window.location.href='./create.php'">Créer nouveau ticket</button>
-        <button type="button" id="ajouter_cours_tuteur" onclick="window.location.href='./cours.php'">Ajouter nouveaux cours et tuteur à la base de donnée</button>
-        <h4>Tes tickets:</h4>
-
-        <?php if (count($tickets_etudiant) === 0): //Pas encore de tickets de l'étudiant?>
-        <p>Vous avez pas encore créer des tickets. Pour en voir, veuillez les créer.</p>
-        <?php else: //Afficher les tickets?>
-        <table>
-            <caption>Votre tickets:</caption>
-            <tr>
-                <th>id</th>
-                <th>créateur</th>
-                <th>titre</th>
-                <th>Cours</th>
-                <th>Statut</th>
-                <th>date de création</th>
-                <th>dernier commentaire</th>
-            </tr>
-
-            <?php //Afficher les tickets de la BDD
-            foreach ($tickets_etudiant as $ticket) {//afficher les tickets
-                echo "<tr class='appuyable' data-href='../Pages/tickets.php?id=" . $ticket['id'] . "'>"; //pour appuyer et le paramètre get
-                echo "<td>" . htmlspecialchars($ticket['id']). "</td>";
-                echo "<td>" . htmlspecialchars($ticket['author_name']). "</td>"; //ici seulement tickets d'utilisateur actuel
-                echo "<td>" . htmlspecialchars($ticket['title']) . "</td>";
-                echo "<td>" . htmlspecialchars($ticket['name']) . "</td>"; //nom du cours
-                echo "<td>" . convertir_statut($ticket['status_id']) . "</td>";
-                echo "<td>" . htmlspecialchars($ticket['created_at']) . "</td>";
-                if ($ticket['message'] != '') { //éviter message vide sans date
-                    echo "<td>" . htmlspecialchars($ticket['message']) . "<br>le " . 
-                    htmlspecialchars($ticket['comment_date']) . "</td>";
-                } else {
-                    echo "<td>Pas encore de commentaires</td>";
-                }
-                echo "</tr>";
-            } //end foreach?>
-            <tr class="appuyable" data-href="./tickets.php?id=2">
-                <td>1</td>
-                <td>David Ludat</td>
-                <td>Problèmes avec l'inscription Plubel</td>
-                <td>DAW</td>
-                <td>Ouvert</td>
-                <td>22/07/21</td>
-                <td>J'en travaille, Ryan, 29/07/21</td>
-            </tr>
-        </table>
-        <?php endif ?>
-
-        <script src="../javascript/tuteur.js"></script>
-    </body>
+<script src="../javascript/tuteur.js"></script>
+</body>
 </html>

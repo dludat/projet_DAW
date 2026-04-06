@@ -1,0 +1,48 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Helpdesk</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Helpdesk</h1>
+
+    <!-- Menu -->
+    <nav>
+        <a href="index.php">Accueil</a>
+
+        <?php if (!isset($_SESSION['user_id'])): ?>
+            <a href="login.php">Connexion</a>
+            <a href="inscription.php">Inscription</a>
+        <?php else: ?>
+            <a href="<?= ($_SESSION['role'] ?? '') === 'tutor' ? 'tuteur.php' : 'etudiant.php' ?>">Mes tickets</a>
+            <a href="create.php">Nouveau ticket</a>
+            <a href="logout.php">Déconnexion</a>
+        <?php endif; ?>
+    </nav>
+</header>
+
+<!-- Messages -->
+<?php if (isset($_SESSION['error'])): ?>
+    <p style="color:red;">
+        <?= htmlspecialchars($_SESSION['error']) ?>
+    </p>
+    <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['succes'])): ?>
+    <p style="color:green;">
+        <?= htmlspecialchars($_SESSION['succes']) ?>
+    </p>
+    <?php unset($_SESSION['succes']); ?>
+<?php endif; ?>

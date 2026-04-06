@@ -218,23 +218,4 @@ class ConnectionBDD {
             echo $e->getMessage();
         }
     }
-<<<<<<< HEAD
-
-    public function test_tutor_subjects(int $tutor_id, int $subject_id) : PDOStatement {
-        //consulter BDD pour voir si existe cours avec ce tuteur
-        try {
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tutor_subjects 
-                JOIN users AS U ON tutor_id = U.id 
-                WHERE role ='tutor' AND :cours_id = subject_id AND :tutor_id = tutor_id");
-            $stmt->bindValue(":tutor_id", $tutor_id, PDO::PARAM_INT);
-            $stmt->bindValue(":cours_id", $subject_id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
 }
-=======
-}
->>>>>>> 54db479 (Corrige erreur id BDD)
