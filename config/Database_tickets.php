@@ -19,7 +19,7 @@ class ConnectionBDD {
         $host = '127.0.0.1'; //Adresse serveur MySQL
         $port = '3306'; //Port MySQL
         $dbname = 'helpdesk'; //Nom BDD
-        $username = getenv('DB_USER') ?: ''; //Nom utilisateur MySQL
+        $username = getenv('DB_USER') ?: 'root'; //Nom utilisateur MySQL
         $password = getenv('DB_PASS') ?: ''; //Mot de passe utilisateur MySQL
 
         //Création DSN
@@ -218,6 +218,7 @@ class ConnectionBDD {
             echo $e->getMessage();
         }
     }
+<<<<<<< HEAD
 
     public function test_tutor_subjects(int $tutor_id, int $subject_id) : PDOStatement {
         //consulter BDD pour voir si existe cours avec ce tuteur
@@ -234,3 +235,6 @@ class ConnectionBDD {
         }
     }
 }
+=======
+}
+>>>>>>> 54db479 (Corrige erreur id BDD)
