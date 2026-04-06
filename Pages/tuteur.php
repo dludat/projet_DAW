@@ -26,6 +26,11 @@ if (isset($_SESSION['succes'])) {
     unset($_SESSION['succes']);
 }
 
+if (isset($_SESSION["error"])) {
+    echo "<p id='erreur' style='color:red'> " . $_SESSION["error"] . "</p>";
+    unset($_SESSION["error"]); 
+}
+
 //Télécharger et préparer les données pour les afficher
 $BDD = new ConnectionBDD();
 $data = $BDD->get_all_tickets($_SESSION["user_id"]); //consulter BDD

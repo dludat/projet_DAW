@@ -88,7 +88,7 @@ class ConnectionBDD {
         }
     }
 
-        public function get_subjects(): PDOStatement {
+    public function get_subjects(): PDOStatement {
         //consulter BDD et retourner tous les cours possibles
         try {
             $stmt = $this->pdo->prepare("SELECT id, name FROM subjects");
@@ -97,6 +97,17 @@ class ConnectionBDD {
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public function get_user_id(string $username) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = :username LIMIT 1");
+            $stmt->bindValue(":username", $username, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }   
     }
 
     public function get_ticket(int $ticket_id) : PDOStatement{
@@ -117,28 +128,12 @@ class ConnectionBDD {
     }
 
     public function get_tutors(): PDOStatement {
-        //consulter BDD et retourner tous les tuteurs qui enseignent un cours avec leurs noms associés
+        //consulter BDD et retourner tous les tuteurs avec leurs noms associés
         try {
-            $stmt = $this->pdo->prepare("SELECT DISTINCT tutor_id, username FROM tutor_subjects JOIN users 
-                ON tutor_id = id WHERE role = 'tutor'");
+            $stmt = $this->pdo->prepare("SELECT id, username FROM users WHERE role = 'tutor'");
             $stmt->execute();
             return $stmt;
         } catch (PDOException $e) { 
-            echo $e->getMessage();
-        }
-    }
-
-    public function get_tutor_subjects(int $tutor_id, int $subject_id) : PDOStatement {
-        //consulter BDD pour voir si existe cours avec ce tuteur
-        try {
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tutor_subjects 
-                JOIN users AS U ON tutor_id = U.id 
-                WHERE role ='tutor' AND :cours_id = subject_id AND :tutor_id = tutor_id");
-            $stmt->bindValue(":tutor_id", $tutor_id, PDO::PARAM_INT);
-            $stmt->bindValue(":cours_id", $subject_id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt;
-        } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
@@ -179,7 +174,36 @@ class ConnectionBDD {
             echo $e->getMessage();
         }
     }
+    public function inserer_user(string $username, string $password_hash, string $role) : bool {
+        try { //inserer utilisateur, retourne true si succès, non si username duplicat
+            $stmt = $this->pdo->prepare(
+                "INSERT INTO users (username, password_hash, role) VALUES (:username, :password_hash, :role)"
+            );
+            $stmt->bindValue(":username", $username, PDO::PARAM_STR);
+            $stmt->bindValue(":password_hash", $password_hash, PDO::PARAM_STR);
+            $stmt->bindValue(":role", $role, PDO::PARAM_STR);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Code: " . $e->getCode();
+            if ($e->getCode() == 23000) { //erreur 1062 Duplicate Entry
+                return false;
+            }
+            echo $e->getMessage();
+        }
+    }
 
+    public function inserer_tutor_subjects(int $tutor_id, int $subject_id) {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO tutor_subjects (tutor_id, subject_id) 
+                VALUES (:tutor_id, :subject_id)");
+            $stmt->bindValue(":tutor_id", $tutor_id, PDO::PARAM_INT);
+            $stmt->bindValue(":subject_id", $subject_id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
     public function update_ticket(int $ticket_id, int $category_id, int $status_id, int $priority_id) : void {
         try {
             $stmt = $this->pdo->prepare(
@@ -190,6 +214,21 @@ class ConnectionBDD {
             $stmt->bindValue("new_statut", $status_id, PDO::PARAM_INT);
             $stmt->bindValue("new_priority", $priority_id, PDO::PARAM_INT);
             $stmt->execute();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function test_tutor_subjects(int $tutor_id, int $subject_id) : PDOStatement {
+        //consulter BDD pour voir si existe cours avec ce tuteur
+        try {
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tutor_subjects 
+                JOIN users AS U ON tutor_id = U.id 
+                WHERE role ='tutor' AND :cours_id = subject_id AND :tutor_id = tutor_id");
+            $stmt->bindValue(":tutor_id", $tutor_id, PDO::PARAM_INT);
+            $stmt->bindValue(":cours_id", $subject_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

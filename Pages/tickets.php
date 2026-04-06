@@ -6,6 +6,7 @@ include "../config/convertir_valeurs.php"; //convertir statut etc
 session_start();
 $ticket_id = intval($_GET["id"]); //Sécuriser contre XSS
 $role = $_SESSION["role"]; //Variable défini en se connectant
+//echo $role;
 
 //Message de succès p. ex. après la création d'une ticket
 if (isset($_SESSION["succes"])) {
@@ -91,7 +92,7 @@ $commentaires = $BDD->get_commentaires($ticket_id)->fetchAll(); //récupérer to
             <button type="submit" id="valider">Ajouter</button>
         </form>
 
-        <?php if ($role === "tuteur"): 
+        <?php if ($role === "tutor"): 
         //Seulement afficher si on a le droit de modifier le ticket?>
         <h3>Modifier Ticket</h3>
         <form id='update_ticket' action='../Actions/update_ticket_action.php' method='post'>
@@ -138,7 +139,7 @@ $commentaires = $BDD->get_commentaires($ticket_id)->fetchAll(); //récupérer to
 
         <button type='submit' id='modifier'>Modifier</button>
     </form>
-    <?php endif; //fin afficher si role=tuteur?>
+    <?php endif; //fin afficher si role=tutor?>
         
         <button type="button" id="retour" onclick="window.location.href='./tuteur.php'">Retour à l'aperçu</button>
     

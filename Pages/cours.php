@@ -25,6 +25,11 @@ if (isset($_SESSION['succes'])) {
     unset($_SESSION['succes']);
 }
 
+if (isset($_SESSION["error"])) {
+    echo "<p id='erreur' style='color:red'> " . $_SESSION["error"] . "</p>";
+    unset($_SESSION["error"]); 
+}
+
 //Télécharger tous les cours et tuteurs
 $BDD = new ConnectionBDD();
 $cours = $BDD->get_subjects();
@@ -38,37 +43,48 @@ $tuteurs_list = $tuteurs->fetchAll();
         <title>Elargir la BDD</title>
     </head>
     <body>
+        <h3>Ajouter nouveau enseignant:</h3>
         <form action="../Actions/add_tuteur.php" method="post" id="ajouter_enseignant">
             Nom d'utilisateur: <input type="texte" name="nom"><br>
             Mot de passe: <input type="password" name="mot_de_passe"><br>
-            <label> Communiquez les enseignants leur mot de passe, s'il vous plait.
+            <label> Communiquez les enseignants leur mot de passe, s'il vous plait.</label><br>
             Controle mot de passe: <input type="password" name="controle_mdp"><br>
 
-            Assignez l'enseignant à un ou plusieurs cours:<br>
-            <select name="cours" multiple>
+            <fieldset>
+                <legend>Assignez l'enseignant à un ou plusieurs cours:</legend>
                 <?php //Ajouter tous les options
-                foreach($tuteurs_list as $t) { 
-                    echo "<option value='" . htmlspecialchars($t["tutor_id"]) ."'>". htmlspecialchars($t["username"]) . "</option>";
+                foreach($cours_list as $c) { 
+                    echo "<div>";
+                    echo "<input type='checkbox' name='cours[]' id='" . intval($c["id"]) . "' value=" . intval($c["id"]) .">";
+                    echo "<label for=" . intval($c["id"]) . ">" . htmlspecialchars($c["name"]) . "</label><br>";
+                    echo "</div>";
                 }
                 ?>
-            </select>
+            </fieldset>
             <button type="submit" id="valider">Enregistrer</button>
         </form>
 
+        <h3>Ajouter nouveau cours</h3>
         <form action="../Actions/add_subject.php" method="post" id="ajouter_cours">
             Nom du cours: <input type="texte" name="nom"><br>
             Description: <textarea name="description"></textarea>
 
-            Assignez un ou plusieurs enseignants au cours:<br>
-            <select name="enseignants" multiple>
-                <?php //ajouter tous les options
-                foreach($cours_list as $c) { 
-                    echo "<option value='" . htmlspecialchars($c["id"]) ."'>". htmlspecialchars($c["name"]) . "</option>";
+            <fieldset>
+                <legend>Assignez un ou plusieurs enseignants au cours:</legend>
+                <?php //Ajouter les enseignants comme options
+                foreach ($tuteurs_list as $t) {
+                    echo "<div>";
+                    echo "<input type='checkbox' name='tuteurs[]' id='" . intval($t["id"]) . "' value=" . intval($t["id"]) . ">";
+                    echo "<label for=" . intval($t["id"]) . ">" . htmlspecialchars($t["username"]) . "</label>";
+                    echo "</div>";
                 }
                 ?>
-            </select>
+            </fieldset>
+
             <button type="submit" id="valider">Enregistrer</button>
         </form>
+
+        <button type="button" id="retour" onclick="window.location.href='./tuteur.php'">Retour à l'aperçu</button>
 
     </body>
 </html>
