@@ -1,0 +1,54 @@
+/* Reset simple */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px;
+}
+
+/* Titre */
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation */
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+/* Hover lien */
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Messages */
+p {
+    margin: 10px;
+    padding: 10px;
+}
+
+/* Message erreur */
+p[style*="red"] {
+    background-color: #ffe5e5;
+    border: 1px solid #ff4d4d;
+}
+
+/* Message succès */
+p[style*="green"] {
+    background-color: #e5ffe5;
+    border: 1px solid #4dff4d;
+}

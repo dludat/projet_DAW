@@ -1,110 +1,113 @@
 <?php
-include "../config/Database_tickets.php"; //connection BDD
-include "../config/convertir_valeurs.php"; //convertir statut etc
+include "../config/Database_tickets.php";
+include "../config/convertir_valeurs.php";
 
-//Récuperer Données
 session_start();
-$ticket_id = intval($_GET["id"]); //Sécuriser contre XSS
-$role = $_SESSION["role"]; //Variable défini en se connectant
-//echo $role;
 
-//Message de succès p. ex. après la création d'une ticket
-if (isset($_SESSION["succes"])) {
-    echo "<p id='succes' style='color:green'> " . $_SESSION["succes"] . "</p>";
-    unset($_SESSION["succes"]); 
+if (!isset($_SESSION["user_id"])) {
+    $_SESSION["error"] = "Vous devez etre connecte pour consulter un ticket.";
+    header('Location: index.php');
+    exit();
 }
 
-//afficher les erreurs
-if (isset($_SESSION["error"])) {
-    echo "<p id='erreur' style='color:red'> " . $_SESSION["error"] . "</p>";
-    unset($_SESSION["error"]); 
+$ticket_id = intval($_GET["id"] ?? 0);
+$role = $_SESSION["role"] ?? '';
+$dashboardLink = $role === 'tutor' ? 'tuteur.php' : 'etudiant.php';
+
+if ($ticket_id <= 0) {
+    $_SESSION["error"] = "Le ticket demande est invalide.";
+    header('Location: ' . $dashboardLink);
+    exit();
 }
 
-//Télécharger les données du ticket
 $BDD = new ConnectionBDD();
-$ticket_info = $BDD->get_ticket($ticket_id)->fetch(); //récupérer informations du ticket
-$commentaires = $BDD->get_commentaires($ticket_id)->fetchAll(); //récupérer tous les commentaires
+$ticket_info = $BDD->get_ticket($ticket_id)->fetch();
+$commentaires = $BDD->get_commentaires($ticket_id)->fetchAll();
+
+if ($ticket_info === false) {
+    $_SESSION["error"] = "Le ticket demande est introuvable.";
+    header('Location: ' . $dashboardLink);
+    exit();
+}
+
+require_once __DIR__ . '/menu.php';
 ?>
-<html>
-    <head>
-        <title>Vu en détail des tickets</title>
-    </head>
-    <body>
-        <h1>Aperçu du ticket Nr <?php echo $ticket_id?></h1>
-        <table id="info_ticket">
-            <caption>Informations importantes</caption>
-            <tr>
-                <th>créateur</th>
-                <th>titre</th>
-                <th>Déscription</th>
-                <th>Cours</th>
-                <th>Tuteur</th>
-                <th>Catégorie</th>
-                <th>Statut</th>
-                <th>Priorité</th>
-                <th>date de création</th>
-            </tr>
-            <tr>
-            <?php //Afficher les infos récupéré du BDD
-            echo "<td>" . $ticket_info["author_name"] . "</td>";
-            echo "<td>" . $ticket_info["title"] . "</td>";
-            echo "<td>" . $ticket_info["description"] . "</td>";
-            echo "<td>" . $ticket_info["name"] . "</td>";
-            echo "<td>" . $ticket_info["tutor_name"] . "</td>";
-            //Convertir les nombres en texte dans les prochaines informations
-            //value nécessaire pour la préparation du formulaire
-            echo "<td id ='categorie' value='". $ticket_info["category_id"]. "'>" . convertir_categorie($ticket_info["category_id"]) . "</td>";
-            echo "<td id ='statut' value='". $ticket_info["status_id"]. "'>" . convertir_statut($ticket_info["status_id"]) . "</td>";
-            echo "<td id = 'priorite' value='". $ticket_info["priority_id"]. "'>". convertir_priorite($ticket_info["priority_id"]) . "</td>";
-            echo "<td>". $ticket_info["created_at"] . "</td>";
-            ?>
-            </tr>
-        </table>
 
-        <?php if (count($commentaires) == 0): //Pas encore des commentaires?>
-        <p>Il n'y a pas encore des commentaires. Seriez le premier qui en écrit.</p>
-        <?php else:?>
-        <table>
-            <caption>Commentaires</caption>
-            <tr>
-                <th>Date</th>
-                <th>Auteur</th>
-                <th>Role de l'auteur</th>
-                <th>Message</th>
-            </tr>
-            <?php //Afficher tous les commentaires
-            foreach ($commentaires as $commentaires_item) {
-                echo "<tr>";
-                echo "<td>". $commentaires_item["created_at"] ."</td>";
-                echo "<td>". $commentaires_item["username"] . "</td>";
-                echo "<td>". $commentaires_item["role"] . "</td>";
-                echo "<td>". $commentaires_item["message"] . "</td>";
-                echo "</tr>";
-            } ?>
-        </table>
-        <?php endif;?>
+<h2>Aperçu du ticket n <?php echo $ticket_id; ?></h2>
 
-        <h3>Ajouter commentaire</h3>
-        <form id="nv_commentaire" action="../Actions/add_comment_action.php" method="post">
-            <input type="hidden" name="id_ticket" value="<?php echo $ticket_id;?>"><br>
-            <input type="hidden" name="id_auteur" value="<?php echo $_SESSION['user_id'];?>"><br>
-            <textarea name="contenu" placeholder="Ajouter votre commentaire ici"></textarea>
-            <button type="submit" id="valider">Ajouter</button>
-        </form>
+<table id="info_ticket">
+    <caption>Informations importantes</caption>
+    <tr>
+        <th>créateur</th>
+        <th>titre</th>
+        <th>Déscription</th>
+        <th>Cours</th>
+        <th>Tuteur</th>
+        <th>Catégorie</th>
+        <th>Statut</th>
+        <th>Priorité</th>
+        <th>date de création</th>
+    </tr>
+    <tr>
+        <?php
+        echo "<td>" . $ticket_info["author_name"] . "</td>";
+        echo "<td>" . $ticket_info["title"] . "</td>";
+        echo "<td>" . $ticket_info["description"] . "</td>";
+        echo "<td>" . $ticket_info["name"] . "</td>";
+        echo "<td>" . $ticket_info["tutor_name"] . "</td>";
+        echo "<td id='categorie' value='" . $ticket_info["category_id"] . "'>" . convertir_categorie($ticket_info["category_id"]) . "</td>";
+        echo "<td id='statut' value='" . $ticket_info["status_id"] . "'>" . convertir_statut($ticket_info["status_id"]) . "</td>";
+        echo "<td id='priorite' value='" . $ticket_info["priority_id"] . "'>" . convertir_priorite($ticket_info["priority_id"]) . "</td>";
+        echo "<td>" . $ticket_info["created_at"] . "</td>";
+        ?>
+    </tr>
+</table>
 
-        <?php if ($role === "tutor"): 
-        //Seulement afficher si on a le droit de modifier le ticket?>
-        <h3>Modifier Ticket</h3>
-        <form id='update_ticket' action='../Actions/update_ticket_action.php' method='post'>
-        
+<h3>Commentaires</h3>
+<?php if (count($commentaires) == 0): ?>
+    <p>Il n'y a pas encore de commentaires sur ce ticket.</p>
+<?php else: ?>
+    <table>
+        <caption>Commentaires</caption>
+        <tr>
+            <th>Date</th>
+            <th>Auteur</th>
+            <th>Role de l'auteur</th>
+            <th>Message</th>
+        </tr>
+        <?php
+        foreach ($commentaires as $commentaires_item) {
+            echo "<tr>";
+            echo "<td>" . $commentaires_item["created_at"] . "</td>";
+            echo "<td>" . $commentaires_item["username"] . "</td>";
+            echo "<td>" . $commentaires_item["role"] . "</td>";
+            echo "<td>" . $commentaires_item["message"] . "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
+<?php endif; ?>
+
+<h3>Ajouter un commentaire</h3>
+<form id="nv_commentaire" action="../Actions/add_comment_action.php" method="post">
+    <input type="hidden" name="id_ticket" value="<?php echo $ticket_id; ?>">
+    <input type="hidden" name="id_auteur" value="<?php echo $_SESSION['user_id']; ?>">
+    <label for="contenu">Commentaire</label><br>
+    <textarea id="contenu" name="contenu" placeholder="Ajouter votre commentaire ici"></textarea><br>
+    <button type="submit" id="valider">Ajouter</button>
+</form>
+
+<?php if ($role === "tutor"): ?>
+    <h3>Modifier le ticket</h3>
+    <form id='update_ticket' action='../Actions/update_ticket_action.php' method='post'>
         <?php echo sprintf("<input name='ticket_id' type='hidden' value='%s'>", $ticket_id); ?>
         <fieldset>
             <legend>Veuillez sélectionner la priorité du ticket</legend>
 
-            <input type='radio' name='priorite' id='basse' value='1'> 
+            <input type='radio' name='priorite' id='basse' value='1'>
             <label for='basse'>Basse</label><br>
 
-            <input type='radio' name='priorite' id='moyenne' value='2'> 
+            <input type='radio' name='priorite' id='moyenne' value='2'>
             <label for='moyenne'>Moyenne</label><br>
 
             <input type='radio' name='priorite' id='haute' value='3'>
@@ -139,10 +142,10 @@ $commentaires = $BDD->get_commentaires($ticket_id)->fetchAll(); //récupérer to
 
         <button type='submit' id='modifier'>Modifier</button>
     </form>
-    <?php endif; //fin afficher si role=tutor?>
-        
-        <button type="button" id="retour" onclick="window.location.href='./tuteur.php'">Retour à l'aperçu</button>
-    
-        <script src="../javascript/ticket.js"></script>
-    </body> 
+<?php endif; ?>
+
+<p><a href="<?= $dashboardLink ?>">Retour à l'aperçu</a></p>
+
+<script src="../javascript/ticket.js"></script>
+</body>
 </html>

@@ -1,25 +1,17 @@
 <?php
-    // Démarre la session
-    session_start();
+session_start();
 
-    // Supprime toutes les variables de session
-    $_SESSION = [];
+$_SESSION = [];
+session_destroy();
 
-    // Détruit la session
-    session_destroy();
+require_once __DIR__ . '/menu.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-    <body>
+<h2>Déconnexion</h2>
 
-    <h1>Déconnexion</h1>
+<p>Vous êtes maintenant déconnecté.</p>
+<p><a href="login.php">Se reconnecter</a></p>
+<p><a href="index.php">Retour accueil</a></p>
 
-    <p>Vous êtes maintenant déconnecté.</p>
-
-    <p><a href="login.php">Se reconnecter</a></p>
-
-    <p><a href="index.php">Retour accueil</a></p>
-
-    </body>
+</body>
 </html>

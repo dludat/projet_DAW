@@ -1,27 +1,17 @@
 <?php
-session_start();
-
-// afficher les erreurs
-if (isset($_SESSION["error"])) {
-    echo "<p id='erreur' style='color:red'>" . $_SESSION["error"] . "</p>";
-    unset($_SESSION["error"]);
-}
+require_once __DIR__ . '/menu.php';
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>Bienvenue sur Helpdesk!</title>
-    <link rel="stylesheet" href="/css/index.css">
-</head>
-<body>
-    <h1>Bienvenue sur Helpdesk!</h1>
-    <h3>Choisissez une action</h3>
 
-    <button id="connexion" type="button" onclick="window.location.href='/Pages/login.php'">
-        Se connecter
-    </button>
-    <button id="inscription" type="button" onclick="window.location.href='/Pages/inscription.php'">
-        S'inscrire
-    </button>
-    </body>
+<h2>Bienvenue sur Helpdesk</h2>
+<p>Choisissez une action pour commencer.</p>
+
+<?php if (isset($_SESSION['user_id'])): ?>
+    <p><a href="<?= ($_SESSION['role'] ?? '') === 'tutor' ? 'tuteur.php' : 'etudiant.php' ?>">Accéder à mon espace</a></p>
+    <p><a href="create.php">Créer un ticket</a></p>
+<?php else: ?>
+    <p><a href="login.php">Se connecter</a></p>
+    <p><a href="inscription.php">S'inscrire</a></p>
+<?php endif; ?>
+
+</body>
 </html>
