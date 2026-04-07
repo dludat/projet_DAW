@@ -16,6 +16,7 @@ $cours_list = $cours->fetchAll();
 $tuteurs_list = $tuteurs->fetchAll();
 
 require_once __DIR__ . '/menu.php';
+echo '<link rel="stylesheet" href="../css/index.css">';
 ?>
 
 <h2>Créer un ticket</h2>

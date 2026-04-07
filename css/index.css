@@ -1,0 +1,785 @@
+/* ========================================================================== */
+/*  Feuille de style principale inspiree de helpdesk_new_design_preview.html  */
+/* ========================================================================== */
+/*
+    Idee generale du rendu :
+    - interface claire, legere et lisible
+    - fond gris tres doux pour faire ressortir les blocs blancs
+    - cartes blanches avec bordures fines et ombres discretes
+    - accent bleu pour la navigation, les liens et les etats actifs
+    - typographie simple et propre, orientee application / dashboard
+*/
+
+/* -------------------------------------------------------------------------- */
+/*  Reset global                                                               */
+/* -------------------------------------------------------------------------- */
+/*
+    On repart d'une base propre :
+    - aucune marge navigateur par defaut
+    - aucun padding parasite
+    - box-sizing: border-box pour des dimensions previsibles
+*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Variables de design                                                        */
+/* -------------------------------------------------------------------------- */
+/*
+    Toutes les couleurs et dimensions importantes sont centralisees ici.
+    Le but est de pouvoir retoucher facilement l'ambiance generale du site
+    sans reecrire toute la feuille.
+*/
+:root {
+    /* Police principale : moderne, sobre, lisible */
+    --font: "Inter", "Segoe UI", Verdana, sans-serif;
+
+    /* Fond global du site : gris tres clair, proche de la maquette */
+    --bg: #f7f8fa;
+
+    /* Surfaces principales : cartes, header, formulaires, tableaux */
+    --surface: #ffffff;
+    --surface-soft: #fafafa;
+
+    /* Bordures fines pour structurer sans alourdir */
+    --border: #e5e7eb;
+    --border-soft: #f0f1f3;
+
+    /* Hierarchie de texte */
+    --text: #111827;
+    --text-soft: #374151;
+    --text-muted: #6b7280;
+    --text-dim: #9ca3af;
+
+    /* Couleur d'accent : bleu propre pour actions et hover */
+    --accent: #2563eb;
+    --accent-soft: #eff6ff;
+    --accent-border: #bfdbfe;
+
+    /* Couleurs d'etats */
+    --success-bg: #f0fdf4;
+    --success-text: #166534;
+    --success-border: #bbf7d0;
+
+    --warning-bg: #fffbeb;
+    --warning-text: #92400e;
+
+    --error-bg: #fef2f2;
+    --error-text: #b91c1c;
+    --error-border: #fecaca;
+
+    /* Arrondis et ombre */
+    --radius: 8px;
+    --radius-lg: 12px;
+    --shadow: 0 10px 30px rgba(17, 24, 39, 0.04);
+
+    /* Largeur commune du contenu pour garder un axe visuel stable */
+    --content-width: min(1100px, calc(100% - 32px));
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Base HTML / body                                                           */
+/* -------------------------------------------------------------------------- */
+/*
+    Le body doit ressembler a une application claire :
+    - beaucoup d'air
+    - texte sombre et net
+    - fond doux derriere les blocs blancs
+*/
+html {
+    font-size: 16px;
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Liens                                                                      */
+/* -------------------------------------------------------------------------- */
+/*
+    Les liens doivent etre visibles sans crier.
+    On garde le bleu du systeme visuel, avec un hover legerement plus appuye.
+*/
+a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+/* Les textes forts gardent une teinte sombre pour rester lisibles */
+strong {
+    color: var(--text);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Header principal                                                           */
+/* -------------------------------------------------------------------------- */
+/*
+    Le header est volontairement blanc et simple.
+    Il doit donner une impression "dashboard / outil pro" plutot que site sombre.
+*/
+header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px 18px;
+    box-shadow: 0 1px 0 rgba(17, 24, 39, 0.03);
+}
+
+/*
+    Le titre Helpdesk doit etre large, centre dans l'axe du contenu,
+    avec un poids assez fort pour servir d'ancrage visuel.
+*/
+header h1 {
+    width: var(--content-width);
+    margin: 0 auto;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Navigation                                                                 */
+/* -------------------------------------------------------------------------- */
+/*
+    La navigation reprend l'esprit des pills de la maquette :
+    - boutons arrondis
+    - fond gris clair au repos
+    - fond bleu tres pale au survol
+*/
+nav {
+    width: var(--content-width);
+    margin: 14px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+nav a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    color: var(--text-soft);
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Gabarit de contenu                                                         */
+/* -------------------------------------------------------------------------- */
+/*
+    Ces selecteurs visent le HTML actuel du projet.
+    Les pages n'ont pas encore une grosse structure par classes, donc on
+    aligne directement les gros blocs du body sur une largeur commune.
+*/
+body > h2,
+body > h3,
+body > p,
+body > form,
+body > table,
+body > ul {
+    width: var(--content-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Titres de pages                                                            */
+/* -------------------------------------------------------------------------- */
+/*
+    h2 = titre principal d'une page
+    Il doit etre net, assez grand, et respirer au-dessus du contenu.
+*/
+body > h2 {
+    margin-top: 32px;
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+/*
+    h3 = sous-section
+    Plus discret que h2, mais toujours solide pour structurer les pages.
+*/
+body > h3 {
+    margin-top: 28px;
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Paragraphes et texte courant                                               */
+/* -------------------------------------------------------------------------- */
+/*
+    Les paragraphes restent sobres, avec une couleur secondaire.
+    Cela evite un rendu trop lourd entre les blocs interactifs.
+*/
+p {
+    margin: 0 0 14px;
+    padding: 0;
+    color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Listes d'erreurs                                                           */
+/* -------------------------------------------------------------------------- */
+/*
+    Les ul sont souvent utilisees ici pour afficher des erreurs de formulaire.
+    On les transforme en bloc d'alerte doux, dans l'esprit de la maquette.
+*/
+ul {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    padding: 16px 20px 16px 24px;
+    list-style: disc;
+    background: var(--surface);
+    border: 1px solid var(--error-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    color: var(--error-text);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Cartes generiques : formulaires et tableaux                                */
+/* -------------------------------------------------------------------------- */
+/*
+    Formulaires et tableaux partagent la meme logique visuelle :
+    - fond blanc
+    - bordure fine
+    - coins arrondis
+    - ombre legere
+    Cela donne une impression de cartes propres et separees du fond.
+*/
+form,
+table {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+/*
+    Le formulaire a besoin d'un padding interne pour ne pas coller au bord.
+*/
+form {
+    padding: 20px;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Legendes / captions de tableaux                                            */
+/* -------------------------------------------------------------------------- */
+/*
+    Le caption agit comme un petit titre de carte.
+    Il doit annoncer le contenu du tableau sans paraitre massif.
+*/
+caption {
+    caption-side: top;
+    padding: 18px 20px 10px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Tableaux                                                                   */
+/* -------------------------------------------------------------------------- */
+/*
+    Les tableaux doivent paraitre propres et "admin panel" :
+    - lignes aeriennes
+    - en-tetes gris doux
+    - bordures presque invisibles
+*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+/*
+    Les headers de colonnes sont petits, en uppercase, comme dans la maquette.
+*/
+th {
+    padding: 12px 18px;
+    background: var(--surface-soft);
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+/*
+    Les cellules restent lisibles et legeres.
+    On garde un rythme vertical confortable pour les tickets.
+*/
+td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f7f8fa;
+    color: var(--text-soft);
+    font-size: 13.5px;
+    vertical-align: top;
+}
+
+/* Pas de ligne de separation sur la derniere ligne */
+tr:last-child td {
+    border-bottom: none;
+}
+
+/*
+    Les lignes "appuyables" doivent suggerer qu'on peut cliquer dessus,
+    sans effet agressif.
+*/
+tr.appuyable {
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+}
+
+tr.appuyable:hover td {
+    background: #fafbff;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Labels et champs de formulaire                                             */
+/* -------------------------------------------------------------------------- */
+/*
+    Les labels sont petits, semibold, et tres propres.
+    L'idee est de rappeler les formulaires de la maquette preview.
+*/
+form label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-soft);
+    letter-spacing: 0.01em;
+}
+
+/*
+    Tous les champs texte partagent le meme style :
+    - fond blanc
+    - bordure grise fine
+    - arrondi discret
+    - halo indigo au focus pour guider l'utilisateur
+*/
+form input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+form input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+form select:focus,
+form textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/*
+    Le textarea doit paraitre confortable pour une description de ticket.
+*/
+form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Groupes fieldset                                                           */
+/* -------------------------------------------------------------------------- */
+/*
+    Les fieldsets servent a grouper les choix radio / checkbox.
+    On leur donne un fond legerement teinte pour les separer du formulaire.
+*/
+fieldset {
+    margin: 18px 0;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-soft);
+}
+
+/*
+    La legende est petite et propre, comme une etiquette de sous-bloc.
+*/
+legend {
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-soft);
+}
+
+/*
+    Dans les fieldsets, on aligne les boutons radio avec leur texte
+    pour obtenir des lignes claires et faciles a scanner.
+*/
+fieldset label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-soft);
+}
+
+/* Les choix radio et checkbox reprennent la couleur d'accent */
+input[type="radio"],
+input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    accent-color: var(--accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Boutons                                                                    */
+/* -------------------------------------------------------------------------- */
+/*
+    Les boutons sont volontairement fonces comme dans la preview :
+    - look sobre
+    - bon contraste
+    - impression d'action principale claire
+*/
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--text);
+    color: #ffffff;
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+button:hover {
+    background: #1f2937;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Messages de session                                                        */
+/* -------------------------------------------------------------------------- */
+/*
+    Les messages venant du PHP utilisent encore des styles inline rouge / vert.
+    On les habille ici pour qu'ils ressemblent a de vraies alertes UI.
+*/
+body > p[style*="red"],
+body > p[style*="green"] {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    border: 1px solid;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+/* Erreur : fond rouge tres pale, texte rouge fonce */
+body > p[style*="red"] {
+    background: var(--error-bg);
+    border-color: var(--error-border);
+    color: var(--error-text) !important;
+}
+
+/* Succes : fond vert tres pale, texte vert fonce */
+body > p[style*="green"] {
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success-text) !important;
+}
+
+/* Compat : garde le curseur pointeur sur les lignes interactives */
+.appuyable {
+    cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Classes utilitaires "hd-*"                                                 */
+/* -------------------------------------------------------------------------- */
+/*
+    Ces classes ne sont pas encore toutes exploitees par le HTML actuel,
+    mais elles permettent de se rapprocher progressivement de la preview
+    sans devoir reimaginer un autre systeme CSS.
+*/
+
+/* Carte type preview */
+.hd-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+/* En-tete de carte, utile pour bloc "Mes tickets" ou "Creer un ticket" */
+.hd-card-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Petit titre de carte */
+.hd-card-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Grille de champs sur deux colonnes comme dans la maquette */
+.hd-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* Label de champ version maquette */
+.hd-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-soft);
+}
+
+/* Champ version maquette, proche du style applique aux formulaires existants */
+.hd-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hd-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Boutons utilitaires reprenant le langage visuel de la preview */
+.hd-btn-primary,
+.hd-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Bouton principal : fond sombre, fort contraste */
+.hd-btn-primary {
+    background: var(--text);
+    color: #ffffff;
+}
+
+.hd-btn-primary:hover {
+    background: #1f2937;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Bouton secondaire : blanc, leger, borde */
+.hd-btn-ghost {
+    background: var(--surface);
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+}
+
+.hd-btn-ghost:hover {
+    background: var(--surface-soft);
+    color: var(--text);
+    text-decoration: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Badges de statut                                                           */
+/* -------------------------------------------------------------------------- */
+/*
+    Ces badges reproduisent l'esprit de la maquette :
+    petit label arrondi + point colore a gauche.
+*/
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+
+/* Petit point circulaire place avant le texte du statut */
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Ouvert : bleu doux */
+.st-open {
+    background: var(--accent-soft);
+    color: #1d4ed8;
+}
+
+.st-open .status-dot {
+    background: #3b82f6;
+}
+
+/* En attente : jaune doux */
+.st-wait {
+    background: var(--warning-bg);
+    color: var(--warning-text);
+}
+
+.st-wait .status-dot {
+    background: #f59e0b;
+}
+
+/* Termine / resolu : vert doux */
+.st-done {
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+.st-done .status-dot {
+    background: #22c55e;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Micro-composants de ticket                                                 */
+/* -------------------------------------------------------------------------- */
+/*
+    Ces petites classes servent a reproduire le style "dashboard ticket" :
+    id en monospace discret, titre un peu plus fort, etiquette de cours.
+*/
+.hd-ticket-id {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dim);
+    font-family: monospace;
+}
+
+.hd-ticket-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.hd-course-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #f3f4f6;
+    color: #4b5563;
+    font-size: 11.5px;
+    font-weight: 500;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+/*
+    Sur mobile :
+    - on resserre les marges
+    - on garde le titre lisible
+    - les tableaux peuvent defiler horizontalement
+    - la grille de formulaire passe en une seule colonne
+*/
+@media (max-width: 768px) {
+    :root {
+        --content-width: min(100% - 20px, 1100px);
+    }
+
+    header {
+        padding: 18px 14px 16px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+    nav {
+        gap: 6px;
+    }
+
+    body > h2 {
+        margin-top: 24px;
+        font-size: 22px;
+    }
+
+    /*
+        On force les gros blocs tabulaires a pouvoir scroller plutot que
+        casser la mise en page sur petits ecrans.
+    */
+    form,
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    /* La grille preview s'empile en une colonne sur mobile */
+    .hd-form-grid {
+        grid-template-columns: 1fr;
+    }
+}

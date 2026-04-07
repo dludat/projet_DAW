@@ -10,6 +10,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     <meta charset="UTF-8">
     <title>Helpdesk</title>
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
@@ -31,6 +32,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <?php endif; ?>
     </nav>
 </header>
+<link rel="stylesheet" href="../css/index.css">
 
 <!-- Messages -->
 <?php if (isset($_SESSION['error'])): ?>
