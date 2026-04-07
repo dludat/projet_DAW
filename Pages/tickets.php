@@ -31,6 +31,7 @@ if ($ticket_info === false) {
 }
 
 require_once __DIR__ . '/menu.php';
+echo '<link rel="stylesheet" href="../css/index.css">';
 ?>
 
 <h2>Aperçu du ticket n <?php echo $ticket_id; ?></h2>

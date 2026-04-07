@@ -20,6 +20,7 @@ $data = $BDD->get_all_tickets($_SESSION["user_id"]);
 $tickets_etudiant = $data->fetchAll();
 
 require_once __DIR__ . '/menu.php';
+echo '<link rel="stylesheet" href="../css/index.css">';
 ?>
 
 <h2>Espace tuteur</h2>

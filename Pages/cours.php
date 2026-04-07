@@ -41,8 +41,11 @@ $tuteurs_list = $tuteurs->fetchAll();
 <html>
     <head>
         <title>Elargir la BDD</title>
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/index.css">
     </head>
     <body>
+        <link rel="stylesheet" href="../css/index.css">
         <h3>Ajouter nouveau enseignant:</h3>
         <form action="../Actions/add_tuteur.php" method="post" id="ajouter_enseignant">
             Nom d'utilisateur: <input type="texte" name="nom"><br>

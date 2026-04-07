@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/menu.php';
+echo '<link rel="stylesheet" href="../css/index.css">';
 ?>
 
 <h2>Bienvenue sur Helpdesk</h2>
