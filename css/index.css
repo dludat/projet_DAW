@@ -59,15 +59,10 @@
     /* Couleur d'accent : bleu propre pour actions et hover */
     --accent: #2563eb;
     --accent-soft: #eff6ff;
-    --accent-border: #bfdbfe;
-
     /* Couleurs d'etats */
     --success-bg: #f0fdf4;
     --success-text: #166534;
     --success-border: #bbf7d0;
-
-    --warning-bg: #fffbeb;
-    --warning-text: #92400e;
 
     --error-bg: #fef2f2;
     --error-text: #b91c1c;
@@ -115,7 +110,6 @@ a {
     color: var(--accent);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
 }
 
 a:hover {
@@ -188,7 +182,6 @@ nav a:hover {
     background: var(--accent-soft);
     color: var(--accent);
     text-decoration: none;
-    transform: translateY(-1px);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -368,7 +361,6 @@ tr:last-child td {
 */
 tr.appuyable {
     cursor: pointer;
-    transition: background-color 0.12s ease;
 }
 
 tr.appuyable:hover td {
@@ -409,7 +401,6 @@ form textarea {
     color: var(--text);
     font: inherit;
     outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 form input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
@@ -496,16 +487,10 @@ button {
     font-size: 13.5px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.15s ease, transform 0.1s ease;
 }
 
 button:hover {
     background: #1f2937;
-    transform: translateY(-1px);
-}
-
-button:active {
-    transform: scale(0.99);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -537,203 +522,6 @@ body > p[style*="green"] {
     background: var(--success-bg);
     border-color: var(--success-border);
     color: var(--success-text) !important;
-}
-
-/* Compat : garde le curseur pointeur sur les lignes interactives */
-.appuyable {
-    cursor: pointer;
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Classes utilitaires "hd-*"                                                 */
-/* -------------------------------------------------------------------------- */
-/*
-    Ces classes ne sont pas encore toutes exploitees par le HTML actuel,
-    mais elles permettent de se rapprocher progressivement de la preview
-    sans devoir reimaginer un autre systeme CSS.
-*/
-
-/* Carte type preview */
-.hd-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-
-/* En-tete de carte, utile pour bloc "Mes tickets" ou "Creer un ticket" */
-.hd-card-header {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border-soft);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-}
-
-/* Petit titre de carte */
-.hd-card-title {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--text);
-}
-
-/* Grille de champs sur deux colonnes comme dans la maquette */
-.hd-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-}
-
-/* Label de champ version maquette */
-.hd-field label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-soft);
-}
-
-/* Champ version maquette, proche du style applique aux formulaires existants */
-.hd-input {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    font: inherit;
-    color: var(--text);
-    background: var(--surface);
-    outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.hd-input:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-/* Boutons utilitaires reprenant le langage visuel de la preview */
-.hd-btn-primary,
-.hd-btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: var(--radius);
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-/* Bouton principal : fond sombre, fort contraste */
-.hd-btn-primary {
-    background: var(--text);
-    color: #ffffff;
-}
-
-.hd-btn-primary:hover {
-    background: #1f2937;
-    color: #ffffff;
-    text-decoration: none;
-}
-
-/* Bouton secondaire : blanc, leger, borde */
-.hd-btn-ghost {
-    background: var(--surface);
-    color: var(--text-soft);
-    border: 1px solid var(--border);
-}
-
-.hd-btn-ghost:hover {
-    background: var(--surface-soft);
-    color: var(--text);
-    text-decoration: none;
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Badges de statut                                                           */
-/* -------------------------------------------------------------------------- */
-/*
-    Ces badges reproduisent l'esprit de la maquette :
-    petit label arrondi + point colore a gauche.
-*/
-.status {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 9px;
-    border-radius: 999px;
-    font-size: 11.5px;
-    font-weight: 600;
-}
-
-/* Petit point circulaire place avant le texte du statut */
-.status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-/* Ouvert : bleu doux */
-.st-open {
-    background: var(--accent-soft);
-    color: #1d4ed8;
-}
-
-.st-open .status-dot {
-    background: #3b82f6;
-}
-
-/* En attente : jaune doux */
-.st-wait {
-    background: var(--warning-bg);
-    color: var(--warning-text);
-}
-
-.st-wait .status-dot {
-    background: #f59e0b;
-}
-
-/* Termine / resolu : vert doux */
-.st-done {
-    background: var(--success-bg);
-    color: var(--success-text);
-}
-
-.st-done .status-dot {
-    background: #22c55e;
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Micro-composants de ticket                                                 */
-/* -------------------------------------------------------------------------- */
-/*
-    Ces petites classes servent a reproduire le style "dashboard ticket" :
-    id en monospace discret, titre un peu plus fort, etiquette de cours.
-*/
-.hd-ticket-id {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-dim);
-    font-family: monospace;
-}
-
-.hd-ticket-title {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--text);
-}
-
-.hd-course-chip {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 6px;
-    background: #f3f4f6;
-    color: #4b5563;
-    font-size: 11.5px;
-    font-weight: 500;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -778,8 +566,4 @@ body > p[style*="green"] {
         overflow-x: auto;
     }
 
-    /* La grille preview s'empile en une colonne sur mobile */
-    .hd-form-grid {
-        grid-template-columns: 1fr;
-    }
 }
