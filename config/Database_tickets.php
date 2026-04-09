@@ -174,6 +174,7 @@ class ConnectionBDD {
             echo $e->getMessage();
         }
     }
+    /** 
     public function inserer_user(string $username, string $password_hash, string $role) : bool {
         try { //inserer utilisateur, retourne true si succès, non si username duplicat
             $stmt = $this->pdo->prepare(
@@ -191,7 +192,7 @@ class ConnectionBDD {
             }
             echo $e->getMessage();
         }
-    }
+    } */
 
     public function inserer_tutor_subjects(int $tutor_id, int $subject_id) {
         try {
@@ -218,4 +219,53 @@ class ConnectionBDD {
             echo $e->getMessage();
         }
     }
+
+    //======Inscription======
+    public function get_user_by_username(string $username): PDOStatement {
+        try {
+            $stmt = $this->pdo->prepare(
+                "SELECT id FROM users WHERE username = :username LIMIT 1"
+            );
+            $stmt->execute(['username' => $username]);
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function inserer_user(string $username, string $password_hash, string $role): void {
+    try {
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO users (username, password_hash, role)
+            VALUES (:username, :password_hash, :role)"
+        );
+        $stmt->execute([
+            'username' => $username,
+            'password_hash' => $password_hash,
+            'role' => $role,
+        ]);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+    //======Connexion======
+    public function get_login_user_by_username(string $username): PDOStatement {
+        try {
+            $stmt = $this->pdo->prepare(
+                "SELECT id, username, password_hash, role
+                FROM users
+                WHERE username = :username
+                LIMIT 1"
+            );
+
+            $stmt->execute(['username' => $username]);
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    
+
 }
