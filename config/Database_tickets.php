@@ -88,17 +88,6 @@ class ConnectionBDD {
         }
     }
 
-    public function get_user_id(string $username) {
-        try {
-            $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = :username LIMIT 1");
-            $stmt->bindValue(":username", $username, PDO::PARAM_STR);
-            $stmt->execute();
-            return $stmt;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }   
-    }
-
     public function get_ticket(int $ticket_id) : PDOStatement{
         try {
             $stmt = $this->pdo->prepare("SELECT U2.username AS author_name, title, description, S.name, 

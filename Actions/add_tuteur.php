@@ -27,31 +27,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Hash le mot de pass
         $hash_mdp = password_hash($mot_de_passe, PASSWORD_DEFAULT);
         //Ajouter utilisateur à BDD
-        $result = $BDD->inserer_user($nom, $hash_mdp, 'tutor');
-        if ($result) { //insertion avait succès
+        $BDD->inserer_user($nom, $hash_mdp, 'tutor');
+        //Trouver l'id du nouveau utilisateur
+        $resultat = $BDD->get_user_by_username($nom)->fetch();
+        $id = $resultat['id'];
+        echo $id;
 
-            //Trouver l'id du nouveau utilisateur
-            $resultat = $BDD->get_user_id($nom)->fetch();
-            $id = $resultat['id'];
-            echo $id;
-
-            //Ajouter données dans tutor_subject
-            foreach ($cours_list as $c) {
-                $BDD->inserer_tutor_subjects($id, intval($c));
-            }
-            // Ajouter message du succès
-            $_SESSION["succes"] = "Insertion du tuteur avait succès";
-            header("Location: ../Pages/cours.php");
-            exit();
-        } else {
-            $erreurs[] = "Echèc. Utilisateur ne pourrait pas etre créé, nom d'utilisateur dupliqué.";
+        //Ajouter données dans tutor_subject
+        foreach ($cours_list as $c) {
+            $BDD->inserer_tutor_subjects($id, intval($c));
         }
-    }
-    //Retourner les erreurs
+        // Ajouter message du succès
+        $_SESSION["succes"] = "Insertion du tuteur avait succès";
+        header("Location: ../Pages/cours.php");
+        exit();
+    } else {
+        //Retourner les erreurs
     $_SESSION['error'] = "";
     foreach ($erreurs as $e) {
         $_SESSION['error'] .= $e;
     }
+    }
+    
     header("Location: ../Pages/cours.php");
     exit();
 }

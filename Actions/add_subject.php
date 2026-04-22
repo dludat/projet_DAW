@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreurs[] = "Veuillez remplir la description du cours";
     }
     
-    $list_enseignants = $_POST['cours'];
+    $list_enseignants = $_POST['tuteurs'];
     if (count($list_enseignants) === 0) {
         $erreurs[] = "Veuillez assigner un ou plusieurs enseignants au nouveau cours.";
     }
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Ajouter message du succès
-        $_SESSION["succes"] = "Insertion du tuteur avait succès";
+        $_SESSION["succes"] = "Insertion du cours est fait avec succès";
         header("Location: ../Pages/cours.php");
         exit();
     } else {
