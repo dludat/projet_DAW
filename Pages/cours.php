@@ -5,6 +5,7 @@ include "../config/Database_tickets.php"; //Connection BDD
 
 // Démarre la session 
 session_start();
+require_once __DIR__ . '/menu.php';
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION["user_id"])) {

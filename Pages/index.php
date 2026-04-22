@@ -10,8 +10,8 @@ echo '<link rel="stylesheet" href="../css/index.css">';
     <p><a href="<?= ($_SESSION['role'] ?? '') === 'tutor' ? 'tuteur.php' : 'etudiant.php' ?>">Accéder à mon espace</a></p>
     <p><a href="create.php">Créer un ticket</a></p>
 <?php else: ?>
-    <p><a href="login.php">Se connecter</a></p>
-    <p><a href="inscription.php">S'inscrire</a></p>
+    <p><a href="../Pages/login.php">Se connecter</a></p>
+    <p><a href="../Pages/inscription.php">S'inscrire</a></p>
 <?php endif; ?>
 
 </body>

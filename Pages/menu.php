@@ -28,6 +28,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <?php else: ?>
             <a href="<?= ($_SESSION['role'] ?? '') === 'tutor' ? 'tuteur.php' : 'etudiant.php' ?>">Mes tickets</a>
             <a href="create.php">Nouveau ticket</a>
+            <?php if ($_SESSION['role'] === 'tutor'): #Possibilité d'ajouter les enseignants?>
+                <a href="cours.php">Gestion d'enseignants</a>
+            <?php endif?>
             <a href="logout.php">Déconnexion</a>
         <?php endif; ?>
     </nav>
