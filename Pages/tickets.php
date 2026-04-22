@@ -1,5 +1,5 @@
 <?php
-include "../config/Database_tickets.php";
+include "../config/Database.php";
 include "../config/convertir_valeurs.php";
 
 session_start();
@@ -21,7 +21,7 @@ if ($ticket_id <= 0) {
 }
 
 $BDD = new ConnectionBDD();
-$ticket_info = $BDD->get_ticket($ticket_id)->fetch();
+$ticket_info = $BDD->get_ticket_info($ticket_id)->fetch();
 $commentaires = $BDD->get_commentaires($ticket_id)->fetchAll();
 
 if ($ticket_info === false) {

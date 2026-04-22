@@ -1,6 +1,6 @@
 <?php
 // Charge la classe de connexion et d'accès aux requêtes SQL.
-include '../config/Database_tickets.php';
+include '../config/Database.php';
 
 session_start();
 
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $BDD = new ConnectionBDD();
 
         // Récupère l'utilisateur correspondant au nom saisi.
-        $stmt = $BDD->get_login_user_by_username($username);
+        $stmt = $BDD->get_login_data_by_username($username);
 
         // Lit le résultat de la requête pour vérifier le compte.
         $user = $stmt->fetch();

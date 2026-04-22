@@ -1,5 +1,5 @@
 <?php
-include "../config/Database_tickets.php"; //Connection BDD
+include "../config/Database.php"; //Connection BDD
 //Superglobal $_SESSION utiliser pas encore vu en CM:
 //https://www.php.net/manual/en/function.session-start.php
 

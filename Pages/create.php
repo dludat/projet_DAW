@@ -1,5 +1,5 @@
 <?php
-include "../config/Database_tickets.php";
+include "../config/Database.php";
 
 session_start();
 

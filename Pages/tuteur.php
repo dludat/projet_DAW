@@ -1,5 +1,5 @@
 <?php
-include "../config/Database_tickets.php";
+include "../config/Database.php";
 include "../config/convertir_valeurs.php";
 
 session_start();

@@ -1,5 +1,5 @@
 <?php
-include "../config/Database_tickets.php";
+include "../config/Database.php";
 include "../config/convertir_valeurs.php";
 
 session_start();
@@ -16,7 +16,7 @@ if ($_SESSION['role'] == 'tutor') {
 }
 
 $BDD = new ConnectionBDD();
-$data = $BDD->get_students_tickets($_SESSION["user_id"]);
+$data = $BDD->get_tickets_from_student($_SESSION["user_id"]);
 $tickets_etudiant = $data->fetchAll();
 
 require_once __DIR__ . '/menu.php';

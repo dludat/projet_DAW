@@ -1,6 +1,6 @@
 <?php
 // Charge la classe de connexion et d'accès aux requêtes SQL.
-require_once __DIR__ . '/../config/Database_tickets.php';
+require_once __DIR__ . '/../config/Database.php';
 
 session_start();
 
