@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreurs[] = "Veuillez confirmer le mot de passe correctement";
     }
     $cours_list = $_POST['cours']; //liste de tous les checkboxes sélectionnés
+    #Aussi possible que nouveau enseignant n'a pas encore de cours
 
     if (empty($erreurs)) { //il n y avait pas des erreurs
         //Hash le mot de pass

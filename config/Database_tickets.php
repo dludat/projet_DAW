@@ -1,15 +1,4 @@
 <?php
-/*Fonctions nécessaire:
-GET Données:
-get_tutors:     SELECT DISTINCT tutor_id FROM tutors_subjects;
-
-Inserer Données:
-fini
-
-Modifier Données:
-change_status(<ticket_id>): UPDATE Tickets SET status_id = new_statut;
-change_priorite(<ticket_id>): UPDATE Tickets SET priority_id = new_priorite;
-*/
 
 //Connection de la base de données
 class ConnectionBDD {
@@ -127,6 +116,17 @@ class ConnectionBDD {
         }
     }
 
+    public function get_subject_by_name($nom): PDOStatement {
+        try {
+            $stmt = $this->pdo->prepare("SELECT id FROM subjects WHERE name = :nom LIMIT 1");
+            $stmt->bindValue(":nom", $nom, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function get_tutors(): PDOStatement {
         //consulter BDD et retourner tous les tuteurs avec leurs noms associés
         try {
@@ -152,12 +152,23 @@ class ConnectionBDD {
         }
     }
 
+    public function inserer_cours(string $nom, string $description): void {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO subjects (name, description) VALUES (:name, :description)");
+            $stmt->bindValue(":name", $nom, PDO::PARAM_STR);
+            $stmt->bindValue(":description", $description, PDO::PARAM_STR);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function inserer_ticket(int $author_id, int $subject_id, int $tutor_id, int $category_id, 
         int $priority_id, int $status_id, string $title, string $description) : void {
-        try { //preparer query
+        try { //preparer query(
             $stmt = $this->pdo->prepare(
                 "INSERT INTO tickets (author_id, subject_id, assigned_tutor_id, category_id, priority_id, 
-                status_id, title, description)
+                status_id, title, description))
                 VALUES (:author_id, :subject_id, :assigned_tutor_id, :category_id, :priority_id, :status_id, 
                 :title, :description)");
             $stmt->bindValue(":author_id", $author_id, PDO::PARAM_INT);
