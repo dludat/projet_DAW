@@ -2,16 +2,16 @@
 include "../config/Database.php";
 
 session_start();
-//Valider les données de la formulaire
+
+//=== Valider les données du formulaire===
 if ($_SERVER["REQUEST_METHOD"] ==="POST") {
     //variables donné par le systeme
     //si par correcte, on a besoin de réconnection
-    $id_ticket = $_POST["id_ticket"] ?? 0;
-    $id_auteur = $_POST["id_auteur"] ?? 0;
+    $id_ticket = intval($_POST["id_ticket"]) ?? 0;
+    $id_auteur = intval($_POST["id_auteur"]) ?? 0;
     if ($id_ticket === 0 || $id_auteur === 0) {
         $_SESSION["error"] = "Erreur interne. Connectez-vous encore une fois";
-        echo "<p>" . $_SESSION["error"] ."";
-        header("Location: ../Pages/index.php");
+        header("Location: ../Pages/index.php"); //retourner à la page précedent
         exit();
     }
 

@@ -51,6 +51,17 @@ class ConnectionBDD {
         }
     }
 
+    function get_assigned_subjects(int $user_id): PDOStatement {
+        try {
+            $stmt = $this->pdo->prepare("SELECT subject_id FROM tutor_subjects WHERE tutor_id = :user_id");
+            $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function get_commentaires(int $ticket_id) {
         //consulter BDD et récupérer tous les commentaires d'un ticket
         try {

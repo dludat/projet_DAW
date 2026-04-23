@@ -2,10 +2,10 @@
 include '../config/Database.php';
 
 session_start();
+
+//==Validation des données===
 //Tableau erreurs
 $erreurs = [];
-
-$BDD = new ConnectionBDD(); //Connection Base de Données
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = htmlspecialchars($_POST['nom']) ?? "";
@@ -18,17 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreurs[] = "Veuillez remplir la description du cours";
     }
     
-    $list_enseignants = $_POST['tuteurs'];
-    if (count($list_enseignants) === 0) {
+    $list_enseignants = $_POST['tuteurs']; //array de integers, sécurisé par intval en les insérant dans la BDD
+    if (count($list_enseignants) === 0) { //pas d'enseignants choisi
         $erreurs[] = "Veuillez assigner un ou plusieurs enseignants au nouveau cours.";
     }
 
     if (empty($erreurs)) { //il n y avait pas des erreurs
+        //===inserer===
+        $BDD = new ConnectionBDD(); //Connection Base de Données
         $BDD->inserer_cours($nom, $description); //Inserer nouveau cours
-        $cours = $BDD->get_subject_by_name($nom)->fetch();
+        $cours = $BDD->get_subject_by_name($nom)->fetch(); //récupérer la id
         $cours_id = $cours['id'];
 
         foreach ($list_enseignants as $e) { //Ajouter les enseignants au cours
+            if ((intval($e) ?? 0) === 0) { //Enseignant n'est pas ajouté
+                $_SESSION['error'] = "Il n'était pas possible d'ajouter tous les enseignants au cours";
+                continue;
+            }
             $BDD->inserer_tutor_subjects(intval($e), $cours_id);
         }
 
