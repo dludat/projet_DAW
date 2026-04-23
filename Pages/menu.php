@@ -23,15 +23,15 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <a href="index.php">Accueil</a>
 
         <?php if (!isset($_SESSION['user_id'])): ?>
-            <a href="login.php">Connexion</a>
-            <a href="inscription.php">Inscription</a>
+            <a href="../Pages/login.php">Connexion</a>
+            <a href="../Pages/inscription.php">Inscription</a>
         <?php else: ?>
-            <a href="<?= ($_SESSION['role'] ?? '') === 'tutor' ? 'tuteur.php' : 'etudiant.php' ?>">Mes tickets</a>
-            <a href="create.php">Nouveau ticket</a>
+            <a href="<?= ($_SESSION['role'] ?? '') === 'tutor' ? '../Pages/tuteur.php' : '../Pages/etudiant.php' ?>">Mes tickets</a>
+            <a href="../Pages/create.php">Nouveau ticket</a>
             <?php if ($_SESSION['role'] === 'tutor'): #Possibilité d'ajouter les enseignants?>
-                <a href='cours.php'>Gestion d'enseignants</a>
+                <a href='../Pages/cours.php'>Gestion d'enseignants</a>
             <?php endif?>
-            <a href="logout.php">Déconnexion</a>
+            <a href="../Pages/logout.php">Déconnexion</a>
         <?php endif; ?>
     </nav>
 </header>
