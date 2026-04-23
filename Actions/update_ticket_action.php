@@ -1,17 +1,18 @@
 <?php
 include "../config/Database.php";
 
-
+//=== Valider les données ===
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //Récupérer les données
     $erreurs = array();
+    //Tout sécurisé par intval
     $ticket_id = intval($_POST["ticket_id"]) ?? 0;
     $priorite = intval($_POST["priorite"]) ?? 0;
     $statut = intval($_POST["statut"]) ?? 0;
     $categorie = intval($_POST["categorie"]) ?? 0;
 
     if ($ticket_id === 0) {
-        $erreurs[] = "Problème interne. Essaye de nouveau";
+        $erreurs[] = "Problème interne. Essayez de nouveau";
     }if ($priorite === 0) {
         $erreurs[] = "Veuillez définir une priorité";
     }
