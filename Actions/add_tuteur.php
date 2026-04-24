@@ -23,11 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cours_list = $_POST['cours']; //liste de tous les checkboxes sélectionnés
     //Aussi possible que nouveau enseignant n'a pas encore de cours
     //Sécurisé par intval
+
+    //Empêche la création d'un deuxième compte avec le même nom
+    // Cherche si un utilisateur avec ce nom existe déjà.
+    $BDD = new ConnectionBDD(); //Connection Base de Données
+    $stmt = $BDD->get_user_by_username($username);
+    $existingUser = $stmt->fetch();
+
+    if ($existingUser) {
+        $erreurs[] = "Ce nom d'utilisateur existe déjà.";
+    }
+    
     if (empty($erreurs)) { //il n y avait pas des erreurs
         //Hash le mot de pass
         $hash_mdp = password_hash($mot_de_passe, PASSWORD_DEFAULT);
         //Ajouter utilisateur à BDD
-        $BDD = new ConnectionBDD(); //Connection Base de Données
+        
         $BDD->inserer_user($nom, $hash_mdp, 'tutor');
         //Trouver l'id du nouveau utilisateur
         $resultat = $BDD->get_user_by_username($nom)->fetch();
