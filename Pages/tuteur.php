@@ -1,6 +1,6 @@
 <?php
-include "../config/Database.php";
-include "../config/convertir_valeurs.php";
+include "../Model/Database.php";
+include "../Model/convertir_valeurs.php";
 
 session_start();
 

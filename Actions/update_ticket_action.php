@@ -1,5 +1,5 @@
 <?php
-include "../config/Database.php";
+include "../Model/Database.php";
 
 //=== Valider les données ===
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

@@ -493,7 +493,12 @@ button:hover {
     background: #1f2937;
 }
 
-/* -------------------------------------------------------------------------- */
+button.retour {
+    margin-bottom: 5%;
+    margin-left: 5%;
+}
+/* -------------
+------------------------------------------------------------- */
 /*  Messages de session                                                        */
 /* -------------------------------------------------------------------------- */
 /*
@@ -511,14 +516,14 @@ body > p[style*="green"] {
 }
 
 /* Erreur : fond rouge tres pale, texte rouge fonce */
-body > p[style*="red"] {
+body > p[style="error"] {
     background: var(--error-bg);
     border-color: var(--error-border);
     color: var(--error-text) !important;
 }
 
 /* Succes : fond vert tres pale, texte vert fonce */
-body > p[style*="green"] {
+body > p[style="succes"] {
     background: var(--success-bg);
     border-color: var(--success-border);
     color: var(--success-text) !important;

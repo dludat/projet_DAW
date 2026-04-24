@@ -1,6 +1,6 @@
 <?php
-include "../config/Database.php";
-include "../config/convertir_valeurs.php";
+include "../Model/Database.php";
+include "../Model/convertir_valeurs.php";
 
 session_start();
 
@@ -9,18 +9,26 @@ if (!isset($_SESSION["user_id"])) {
     header('Location: index.php');
     exit();
 }
-
+//Valider l'access au ticket
 $ticket_id = intval($_GET["id"] ?? 0);
+$BDD = new ConnectionBDD();
+$author = $BDD->get_ticket_author($ticket_id)->fetch()['author_id']; //Controler qu'on a access
 $role = $_SESSION["role"] ?? '';
+
+if ($author != $_SESSION["user_id"] && $role != 'tutor') { //accès pas autorisé
+    $_SESSION["error"] = "Vous n'avez pas le droit d'acceder ce ticket.";
+}
 $dashboardLink = $role === 'tutor' ? 'tuteur.php' : 'etudiant.php';
 
 if ($ticket_id <= 0) {
     $_SESSION["error"] = "Le ticket demande est invalide.";
+}
+
+if (isset($_SESSION['error'])) { //retourner à la page d'aperçu
     header('Location: ' . $dashboardLink);
     exit();
 }
 
-$BDD = new ConnectionBDD();
 $ticket_info = $BDD->get_ticket_info($ticket_id)->fetch();
 $commentaires = $BDD->get_commentaires($ticket_id)->fetchAll();
 

@@ -1,4 +1,5 @@
 <?php
+//=== Le Menu en haut de tous les pages ===
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
@@ -25,7 +26,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <?php if (!isset($_SESSION['user_id'])): ?>
             <a href="../Pages/login.php">Connexion</a>
             <a href="../Pages/inscription.php">Inscription</a>
-        <?php else: ?>
+        <?php else: //Séparation des éspaces tuteurs et étudiants?>
             <a href="<?= ($_SESSION['role'] ?? '') === 'tutor' ? '../Pages/tuteur.php' : '../Pages/etudiant.php' ?>">Mes tickets</a>
             <a href="../Pages/create.php">Nouveau ticket</a>
             <?php if ($_SESSION['role'] === 'tutor'): #Possibilité d'ajouter les enseignants?>
@@ -35,18 +36,17 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <?php endif; ?>
     </nav>
 </header>
-<link rel="stylesheet" href="../css/index.css">
 
 <!-- Messages -->
 <?php if (isset($_SESSION['error'])): ?>
-    <p style="color:red;">
+    <p style="error">
         <?= htmlspecialchars($_SESSION['error']) ?>
     </p>
     <?php unset($_SESSION['error']); ?>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['succes'])): ?>
-    <p style="color:green;">
+    <p style="succes">
         <?= htmlspecialchars($_SESSION['succes']) ?>
     </p>
     <?php unset($_SESSION['succes']); ?>

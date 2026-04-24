@@ -1,6 +1,6 @@
 <?php
 // Charge la classe de connexion et d'accès aux requêtes SQL.
-include '../config/Database.php';
+include '../Model/Database.php';
 
 session_start();
 
