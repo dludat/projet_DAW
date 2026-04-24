@@ -7,7 +7,7 @@ require_once __DIR__ . '/menu.php';
 
 <h2>Inscription</h2>
 
-<form action="../Action/authentification.php" method="post">
+<form action="../Actions/authentification.php" method="post">
     <p>
         <label for="username">Nom d'utilisateur</label><br>
         <input id="username" type="text" name="username">

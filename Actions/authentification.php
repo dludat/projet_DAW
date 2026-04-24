@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //Ajoute message de succes
                 $_SESSION['succes'] = "Vous êtes inscrit avec succes";
                 //Redigire vers la page d'accueil
-                header('Location: index.php');
+                header('Location: ../Pages/index.php');
                 exit();
             }
         } catch (Exception $e) {
@@ -59,9 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } //Pas de succes
     $_SESSION['error'] = '';
     foreach ($erreurs as $e) {
-        $_SESSION['error'] .= $e . "\n";
+        $_SESSION['error'] .= $e . "<br>";
     }
-    header('Location: inscription.php');
+    header('Location: ../Pages/inscription.php');
     exit();
 }
 ?>

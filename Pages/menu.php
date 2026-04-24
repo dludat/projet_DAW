@@ -4,7 +4,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -40,14 +39,14 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 <!-- Messages -->
 <?php if (isset($_SESSION['error'])): ?>
     <p style="error">
-        <?= htmlspecialchars($_SESSION['error']) ?>
+        <?=$_SESSION['error'] ?>
     </p>
     <?php unset($_SESSION['error']); ?>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['succes'])): ?>
     <p style="succes">
-        <?= htmlspecialchars($_SESSION['succes']) ?>
+        <?=$_SESSION['succes'] ?>
     </p>
     <?php unset($_SESSION['succes']); ?>
 <?php endif; ?>

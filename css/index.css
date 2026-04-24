@@ -244,24 +244,6 @@ p {
     color: var(--text-muted);
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Listes d'erreurs                                                           */
-/* -------------------------------------------------------------------------- */
-/*
-    Les ul sont souvent utilisees ici pour afficher des erreurs de formulaire.
-    On les transforme en bloc d'alerte doux, dans l'esprit de la maquette.
-*/
-ul {
-    margin-top: 16px;
-    margin-bottom: 24px;
-    padding: 16px 20px 16px 24px;
-    list-style: disc;
-    background: var(--surface);
-    border: 1px solid var(--error-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-    color: var(--error-text);
-}
 
 /* -------------------------------------------------------------------------- */
 /*  Cartes generiques : formulaires et tableaux                                */
@@ -505,8 +487,8 @@ button.retour {
     Les messages venant du PHP utilisent encore des styles inline rouge / vert.
     On les habille ici pour qu'ils ressemblent a de vraies alertes UI.
 */
-body > p[style*="red"],
-body > p[style*="green"] {
+body > p[style="error"],
+body > p[style="succes"] {
     margin-top: 18px;
     margin-bottom: 18px;
     padding: 12px 16px;
