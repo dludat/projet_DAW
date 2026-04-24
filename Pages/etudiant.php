@@ -5,8 +5,8 @@ include "../Model/convertir_valeurs.php";
 require_once __DIR__ . '/menu.php';
 
 //Controler que l'utilisateur est connecté
-if (!isset($_SESSION["user_id"])) {
-    $_SESSION["error"] = "Vous devez etre connecte pour acceder a l'espace etudiant.";
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION["error"] = "Vous devez être connecte pour acceder a l'espace etudiant.";
     header('Location: index.php');
     exit();
 }

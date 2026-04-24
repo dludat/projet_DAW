@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($erreurs)) {//formulaire ne peut pas etre valider
         $_SESSION["error"] = "";
         foreach ($erreurs as $e) {
-            $_SESSION["error"] .= $e;
+            $_SESSION["error"] .= $e . "<br>";
         }
         //Rentrer à la page précedente
         header("Location: ../Pages/create.php");

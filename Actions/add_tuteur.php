@@ -49,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Retourner les erreurs
         $_SESSION['error'] = "";
         foreach ($erreurs as $e) {
-            $_SESSION['error'] .= $e;
+            $_SESSION['error'] .= $e . "<br>";
         }
     }
-    //Rentrer à la page de vue
+    //Rentrer à la page de 
     header("Location: ../Pages/cours.php");
     exit();
 }

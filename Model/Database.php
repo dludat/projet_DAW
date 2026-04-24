@@ -115,6 +115,16 @@ class ConnectionBDD {
             echo $e->getMessage();
         }
     }
+    public function get_ticket_author(int $ticket_id): PDOStatement {
+        try{
+            $stmt = $this->pdo->prepare("SELECT author_id FROM tickets WHERE id = :ticket_id LIMIT 1");
+            $stmt->bindValue(":ticket_id", $ticket_id, PDO::PARAM_INT);;
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
     public function get_ticket_info(int $ticket_id) : PDOStatement{
         //retourne tous les infos concernant le ticket dans tickets, users, commentaires, subjects

@@ -6,7 +6,7 @@ CREATE DATABASE helpdesk; USE helpdesk;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
+    username VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('student','tutor') NOT NULL
 );

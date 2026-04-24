@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         //afficher les erreurs
         $_SERVER["error"] = "";
         foreach ($erreurs as $e) { 
-            $_SERVER["error"] .= $e . "\n";
+            $_SERVER["error"] .= $e . "<br>";
         }
         header("Location: ../Pages/tickets.phpid=" . $ticket_id);
         exit();

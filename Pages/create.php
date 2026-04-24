@@ -5,8 +5,8 @@ include "../Model/Database.php";
 require_once __DIR__ . '/menu.php';
 
 //Controler que l'utilisateur est connecté
-if (!isset($_SESSION["user_id"])) {
-    $_SESSION["error"] = "Vous devez etre connecte pour créer un ticket.";
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "Vous devez etre connecte pour créer un ticket.";
     header('Location: index.php');
     exit();
 }

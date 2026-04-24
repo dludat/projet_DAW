@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Retourner les erreurs
         $_SESSION['error'] = "";
         foreach ($erreurs as $e) {
-        $_SESSION['error'] .= $e;
+            $_SESSION['error'] .= $e . "<br>";
         }
     }
     header("Location: ../Pages/cours.php");
