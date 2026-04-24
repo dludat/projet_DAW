@@ -9,6 +9,7 @@ require_once __DIR__ . '/menu.php';
     <body>
         <h2>Inscription</h2>
 
+        <p><a href="login.php">Déjà inscrit ? Se connecter</a></p>
         <form action="../Actions/authentification.php" method="post">
             <p>
                 <label for="username">Nom d'utilisateur</label><br>
@@ -38,8 +39,7 @@ require_once __DIR__ . '/menu.php';
             </p>
         </form>
 
-        <p><a href="login.php">Déjà inscrit ? Se connecter</a></p>
-        <p><a href="index.php">Retour accueil</a></p>
+        <button class="retour" onclick="window.location.href='index.php'">Retour accueil</button>
     </body>
 </html>
 

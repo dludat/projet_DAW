@@ -47,7 +47,7 @@ if ($ticket_info === false) {
 
 <html>
     <body>
-        <h2>Aperçu du ticket n <?php echo $ticket_id; ?></h2>
+        <h2>Aperçu du ticket nr <?php echo $ticket_id; ?></h2>
 
         <table id="info_ticket">
             <caption>Informations importantes</caption>
@@ -158,7 +158,9 @@ if ($ticket_info === false) {
             </form>
         <?php endif; ?>
 
-        <p><a href="<?= $dashboardLink ?>">Retour à l'aperçu</a></p>
+        <button class="retour" onclick="window.location.href='
+            <?= ($_SESSION['role'] ?? '') === 'tutor' ? 'tuteur.php' : 'etudiant.php' ?>
+            '">Retour à l'aperçu</button>
 
         <script src="../javascript/ticket.js"></script>
     </body>
