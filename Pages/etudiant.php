@@ -11,7 +11,7 @@ if (!isset($_SESSION["user_id"])) {
     exit();
 }
 
-//retransmettre en cas du role faux
+//rediriger en cas du role faux
 if ($_SESSION['role'] == 'tutor') {
     header('Location: tuteur.php');
     exit();
