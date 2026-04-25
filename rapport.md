@@ -1,5 +1,4 @@
-# Helpdesk Universitaire
-
+# Helpdesk
 
 ## 1. Utilisation
 
@@ -26,43 +25,47 @@
 ## 3. Structure du projet
 
 ```text
-projet_DAW/
-├── Actions/
-│   ├── add_comment_action.php
-│   ├── add_subject.php
-│   ├── add_tuteur.php
-|   ├── connexion.php
-│   ├── create_ticket_action.php
-│   ├── register_action.php
-│   └── update_ticket_action.php
-├── Pages/
-│   ├── cours.php
-│   ├── create.php
-│   ├── etudiant.php
-│   ├── index.php
-│   ├── inscription.php
-│   ├── login.php
-│   ├── logout.php
-│   ├── menu.php
-│   ├── tickets.php
-│   └── tuteur.php
-├── Model/
-│   ├── Database.php
-│   ├── Database.sql
-│   ├── Database.txt
-│   ├── DatabaseUML.png
-│   └── convertir_valeurs.php
-├── css/
-├── javascript/
-├── Tests/
-│   └── donnes_test.sql
-│   ├── donnees.sql
+├── Actions
+│   ├── add_comment_action.php
+│   ├── add_subject.php
+│   ├── add_tuteur.php
+│   ├── connexion.php
+│   ├── create_ticket_action.php
+│   ├── register_action.php
+│   └── update_ticket_action.php
+├── css
+│   ├── index.css
+│   └── main.css
+├── javascript
+│   ├── etudiant.js
+│   ├── ticket.js
+│   └── tuteur.js
+├── Model
+│   ├── convertir_valeurs.php
+│   ├── Database.php
+│   ├── Database.sql
+│   ├── Database.txt
+│   └── DatabaseUML.png
+├── Pages
+│   ├── cours.php
+│   ├── create.php
+│   ├── etudiant.php
+│   ├── index.php
+│   ├── inscription.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── menu.php
+│   ├── tickets.php
+│   └── tuteur.php
+├── rapport.md
 ├── README.md
+├── sujet_projet.pdf
+└── Tests
+    ├── donnees.sql
+    └── donnes_test.sql
 ```
 
 ## 4. Architecture generale
-
-Le projet suit une architecture simple organisee autour de trois zones:
 
 - `Pages/` contient les vues et les points d'entree de l'application.
 - `Actions/` contient les traitements des formulaires.
@@ -307,22 +310,15 @@ Le dossier `javascript/` contient trois scripts simples:
 Le JavaScript reste leger et complete le rendu serveur.
 
 ## 13. Style et interface 
+UTILISATION D'IA ! :
+
+Nous avons commencé par dessiner une première version puis nous avons converti notre idée en un premier code CSS.
+Le code CSS étant fonctionnel mais pas très beau visuellement il a été amélioré (couleurs, formes…) par l’IA "Claude" en se basant sur le CSS crée précédent.
 
 Les feuilles de style principales se trouvent dans `css/`:
 
 - `main.css`
 - `index.css`
-
-L'interface est sobre, fonctionnelle et adaptee a un projet universitaire.
-
-## 14. Fichiers importants
-
-- `README.md`: instructions de lancement de base
-- `Model/Database.sql`: schema SQL principal
-- `Model/Database.php`: classe d'acces aux donnees
-- `Model/convertir_valeurs.php`: conversion des identifiants en libelles
-- `Pages/menu.php`: en-tete commun et affichage des messages
-- `Tests/donnes_test.sql`: donnees de demonstration
 
 
 ## 16. Repartition
