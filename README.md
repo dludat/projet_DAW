@@ -53,6 +53,33 @@ On execute les commandes suivants pour créeer un nouveau utilisateur et lui don
 
 `EXIT;`
 
+## 8. Insérer les données de test
+
+Le fichier `Tests/donnees.sql` permet de remplir la base avec des données de test.
+
+Attention : ce script supprimer les anciennes données des tables.
+
+Se connecter à MySQL :
+
+`mysql -u root`
+
+Sélectionner la base :
+
+`USE helpdesk;`
+
+Exécuter le fichier :
+
+`SOURCE [CheminCompletVers]/projet_DAW/Tests/donnees.sql;`
+
+Le script insère :
+* des utilisateurs étudiants et tuteurs
+* des matières
+* les associations tuteurs/matières
+* des catégories
+* des priorités
+* des statuts
+* des tickets
+* des commentaires
 
 # II — Lancer le serveur PHP
 
