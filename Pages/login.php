@@ -12,7 +12,7 @@ require_once __DIR__ . '/menu.php';
         <p><a href="inscription.php">Créer un compte</a></p>
         <form action="../Actions/connexion.php" method="post">
             <label for="username">Nom d'utilisateur</label><br>
-            <input id="username" type="text" name="username" value="<?= htmlspecialchars($username) ?>" required><br><br>
+            <input id="username" type="text" name="username" value="<?= htmlspecialchars($username ?? "") ?>" required><br><br>
 
             <label for="password">Mot de passe</label><br>
             <input id="password" type="password" name="password" required><br><br>
