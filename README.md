@@ -83,7 +83,7 @@ Le script insère :
 
 # II — Lancer le serveur PHP
 
-# 1. Vérifier l’installation de PHP
+## 1. Vérifier l’installation de PHP
 
 `php -v`
 
@@ -92,23 +92,23 @@ Sinon :
 `brew install php`
 
 
-# 2. Aller dans le dossier du projet
+## 2. Aller dans le dossier du projet
 
 `cd ~[CheminCompletVers]/projet_DAW/`
 
 
-# 3. Definir variables pour la Connection BDD
+## 3. Definir variables pour la Connection BDD
 
 `export DB_USER=[nom d'utilisateur]`
 `export DB_PASS=[mot de passe]`
 
 
-# 4. Lancer le serveur PHP
+## 4. Lancer le serveur PHP
 
 `php -S localhost:8000`
 
 
-# 5. Accéder au site
+## 5. Accéder au site
 Avec
 `http://localhost:8000/Pages/index.php`
 
