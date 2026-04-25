@@ -10,7 +10,7 @@ require_once __DIR__ . '/menu.php';
         <h2>Inscription</h2>
 
         <p><a href="login.php">Déjà inscrit ? Se connecter</a></p>
-        <form action="../Actions/authentification.php" method="post">
+        <form action="../Actions/register_action.php" method="post">
             <p>
                 <label for="username">Nom d'utilisateur</label><br>
                 <input id="username" type="text" name="username">
