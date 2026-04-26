@@ -20,14 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($controle_mdp === "" || $controle_mdp != $mot_de_passe) {
         $erreurs[] = "Veuillez confirmer le mot de passe correctement";
     }
-    $cours_list = $_POST['cours']; //liste de tous les checkboxes sélectionnés
+    $cours_list = $_POST['cours'] ?? []; //liste de tous les checkboxes sélectionnés
     //Aussi possible que nouveau enseignant n'a pas encore de cours
     //Sécurisé par intval
 
     //Empêche la création d'un deuxième compte avec le même nom
     // Cherche si un utilisateur avec ce nom existe déjà.
     $BDD = new ConnectionBDD(); //Connection Base de Données
-    $stmt = $BDD->get_user_by_username($username);
+    $stmt = $BDD->get_user_by_username($nom);
     $existingUser = $stmt->fetch();
 
     if ($existingUser) {
