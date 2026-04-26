@@ -37,7 +37,7 @@ $tickets_etudiant = $data->fetchAll();
             <p>Vous n'avez pas encore créé de ticket.</p>
         <?php else: ?>
             <table>
-                <caption>Votre tickets:</caption>
+                <caption>Vos tickets:</caption>
                 <tr>
                     <th>id</th>
                     <th>créateur</th>

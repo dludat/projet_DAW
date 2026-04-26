@@ -66,11 +66,10 @@ $tuteurs_list = $tuteurs->fetchAll();
                 <?php //Ajouter les enseignants comme options
                 foreach ($tuteurs_list as $t):?>
                     <div>
-                        <input type='checkbox' name='tuteurs[]' id=' <?=intval($t["id"])?>' value= <?=intval($t["id"])?> >
-                        <label for= <?=intval($t["id"])?>> <?=htmlspecialchars($t["username"])?></label>
+                        <input type='checkbox' name='tuteurs[]' id=' <?=intval($t["tutor_id"])?>' value= <?=intval($t["tutor_id"])?> >
+                        <label for= <?=intval($t["tutor_id"])?>> <?=htmlspecialchars($t["username"])?></label>
                     </div>
                 <?php endforeach?>
-                ?>
             </fieldset>
 
             <button type="submit" id="valider">Enregistrer</button>

@@ -40,7 +40,6 @@ $tickets_etudiant = $data->fetchAll();
             <p>Aucun ticket n'est encore disponible.</p>
         <?php else: ?>
             <table>
-                <caption>Votre tickets:</caption>
                 <tr>
                     <th>id</th>
                     <th>créateur</th>

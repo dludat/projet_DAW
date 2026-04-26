@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreurs[] = "Veuillez remplir la description du cours";
     }
     
-    $list_enseignants = $_POST['tuteurs']; //array de integers, sécurisé par intval en les insérant dans la BDD
-    if (count($list_enseignants) === 0) { //pas d'enseignants choisi
+    $list_enseignants = $_POST['tuteurs'] ?? 0; //array de integers, sécurisé par intval en les insérant dans la BDD
+    if ($list_enseignants === 0) { //pas d'enseignants choisi
         $erreurs[] = "Veuillez assigner un ou plusieurs enseignants au nouveau cours.";
     }
 
@@ -31,7 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cours_id = $cours['id'];
 
         foreach ($list_enseignants as $e) { //Ajouter les enseignants au cours
-            if ((intval($e) ?? 0) === 0) { //Enseignant n'est pas ajouté
+            echo $e . " ";
+            echo (intval($e)) . "<br>";
+            if (intval($e) === 0) { //Enseignant n'est pas ajouté
                 $_SESSION['error'] = "Il n'était pas possible d'ajouter tous les enseignants au cours";
                 continue;
             }
