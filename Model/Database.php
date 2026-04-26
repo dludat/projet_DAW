@@ -229,7 +229,7 @@ class ConnectionBDD {
         try { //preparer query
             $stmt = $this->pdo->prepare(
                 "INSERT INTO tickets (author_id, subject_id, assigned_tutor_id, category_id, priority_id, 
-                status_id, title, description))
+                status_id, title, description)
                 VALUES (:author_id, :subject_id, :assigned_tutor_id, :category_id, :priority_id, :status_id, 
                 :title, :description)");
             $stmt->bindValue(":author_id", $author_id, PDO::PARAM_INT);
