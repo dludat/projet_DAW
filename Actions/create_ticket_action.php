@@ -41,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //vérifier s'il y a ce cours avec ce tuteur (tutor_subjects)
     $BDD = new ConnectionBDD(); //ouvrir connection BDD
-    $cours_de_tutor = $BDD->get_assigned_subjects($tuteur)->fetchAll();
-    if (!array_search($cours, $cours_de_tutor)) { //rechercher le cours
+    $cours_de_tutor = $BDD->get_assigned_subjects($tuteur)->fetchAll(PDO::FETCH_COLUMN); //comme array avec indices
+    if (array_search($cours, $cours_de_tutor) === false) { //rechercher le cours
         $erreurs[] = "Il n'y a pas ce cours qui est enseigné par le tuteur indiqué.";
     }
 
