@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] ==="POST") {
     $contenu = htmlspecialchars($_POST["contenu"]) ?? "";
     if ($contenu === "") {
         $_SESSION["error"] = "Votre commentaire doit avoir un contenu visible. Reessayez.";
-        header("Location: ../Pages/tickets.php");
+        header("Location: ../Pages/tickets.php?id=" . $id_ticket);
         exit();
     } else {
         //Insertion dans la BDD
