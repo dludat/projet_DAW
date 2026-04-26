@@ -1,6 +1,6 @@
 <?php
 // Charge la classe de connexion et d'accès aux requêtes SQL.
-include '/../Model/Database.php';
+include '../Model/Database.php';
 
 require_once __DIR__ . '/menu.php';
 ?>
