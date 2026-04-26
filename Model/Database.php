@@ -171,7 +171,7 @@ class ConnectionBDD {
     public function get_tutors(): PDOStatement {
         //consulter BDD et retourner tous les tuteurs avec leurs noms associés
         try {
-            $stmt = $this->pdo->prepare("SELECT id, username FROM users WHERE role = 'tutor'");
+            $stmt = $this->pdo->prepare("SELECT id AS tutor_id, username FROM users WHERE role = 'tutor'");
             $stmt->execute();
             return $stmt;
         } catch (PDOException $e) { 

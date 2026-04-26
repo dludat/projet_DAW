@@ -32,7 +32,7 @@ $tuteurs_list = $tuteurs->fetchAll();
             <select id="cours" name="cours" required>
                 <?php //Ajouter les options de cours
                 foreach ($cours_list as $c) {
-                    echo "<option value='" . htmlspecialchars($c["id"]) . "'>" . htmlspecialchars($c["name"]) . "</option>";
+                    echo "<option value='" . intval($c["id"]) . "'>" . htmlspecialchars($c["name"]) . "</option>";
                 }
                 ?>
             </select><br><br>
@@ -41,7 +41,7 @@ $tuteurs_list = $tuteurs->fetchAll();
             <select id="tuteur" name="tuteur" required>
                 <?php //Ajouter les options de tuteurs
                 foreach ($tuteurs_list as $t) {
-                    echo "<option value='" . htmlspecialchars($t["tutor_id"]) . "'>" . htmlspecialchars($t["username"]) . "</option>";
+                    echo "<option value='" . intval($t["tutor_id"]) . "'>" . htmlspecialchars($t["username"]) . "</option>";
                 }
                 ?>
             </select><br><br>
